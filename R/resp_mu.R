@@ -5,7 +5,7 @@
 ########################################################################
 ########################################################################
 ########################################################################   
-fitted_resp <- function (obj, title, 
+resp_mu <- function (obj, title, 
                              line.col = "darkred", 
                             point.col = "steelblue4",
                           point.shape = 20
@@ -46,7 +46,7 @@ txt_ylabel <-  if (any(class(pp)%in%"try-error")) txt_ylab = "response"
        gg <- ggplot(d, aes(x = fv, y = y)) + 
              geom_point(shape = point.shape, colour = point.col) + 
              geom_line(aes(x = fv, y = fv), col=line.col)+
-             xlab("fitted values") + # working  with facet_wrap 
+             xlab("mu fitted values") + # working  with facet_wrap 
              ylab(txt_ylabel) + # working  with facet_wrap 
              ggtitle(txt.title)   # working  with facet_wrap 
 

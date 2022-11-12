@@ -1140,7 +1140,7 @@ da2$Model <- factor(da2$Model)
 #  gg +  geom_polygon(data=xy, aes(x=x, y=y, alpha=0.1),  fill="lightgray")+
 #    geom_point(data=DA1, aes(X,Y, group=Model))# NOT colour
 # test 3
-  gg <- gg +  geom_polygon(data=xy, aes(x=x, y=y, alpha=0.1),  fill="lightgray")+
+  gg <- gg +  geom_polygon(data=xy, aes(x=x, y=y, alpha=alpha_JB_test),  fill=col_JB_test)+
     geom_point(data=DA1, aes(X,Y), colour=DA1$Col, alpha=alpha_bootstrap)+
     annotate(geom="text", x=da2$X, y=da2$Y, label=the.names, color=col_text, cex=cex_text)+
     theme(legend.position = "none")

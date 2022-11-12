@@ -3,6 +3,9 @@
 #   first function
 ########################################################################
 ########################################################################
+## NOTE
+##  hatvalues.gamlss() which is used  in gamlss_prep_data() can not cope 
+##  with poly(x,3) so it advised to use x+x^2+x^3 instead
 ########################################################################
 ########################################################################   
 fitted_leverage <- function (obj, plot = TRUE,  title, quan.val=0.99, 

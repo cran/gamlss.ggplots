@@ -45,7 +45,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL)
 theme <- match.arg(theme)
 if (theme=="original")
 {
-  gg1 <- resid_fv(obj, value=value, title="(a) residuals vs fitted values", annotate=FALSE)
+  gg1 <- resid_mu(obj, value=value, title="(a) residuals vs fitted values", annotate=FALSE)
   gg2 <- resid_index(obj,  value=value, title="(b) residuals vs index")
   gg3 <- resid_density(obj, title="(c) residuals density")
   gg4 <- resid_qqplot(obj, value=value, title="(d) QQ-plot of residuals") 

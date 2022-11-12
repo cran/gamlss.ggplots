@@ -7,9 +7,12 @@
 # v)   different colour scheme? 
 # -------------------------------------------------------------
 pe_pdf <- function (     obj = NULL, 
-                        term = NULL, 
-                    y.points = 100,
-                    x.points = 10, 
+                        term = NULL,
+                        from = NULL,
+                          to = NULL,
+               y.grid.points = 100,
+               x.grid.points = 10, 
+                    x.values,
                         data = NULL, 
                        scale = NULL, 
                          how = c("median", "last"), 
@@ -18,6 +21,7 @@ pe_pdf <- function (     obj = NULL,
                   horizontal = TRUE, 
                     col.fill = hcl.colors(lqq, palette="viridis"),
                        alpha = 0.6,
+                        xlim = NULL,
                        title) 
 {
 #require(ggridges)
@@ -26,6 +30,8 @@ if (is.null(obj) || !class(obj)[1] == "gamlss")
 if (is.null(term)) stop("The model term is not set")
        how <- match.arg(how)
   x <-  y <- width <- NULL
+# get the response
+  resp <- paste(obj$mu.formula[[2]])
 if (any(grepl("data", names(obj$call)))) 
   {
       DaTa <- if (startsWith(as.character(obj$call["data"]), "na.omit")) 
@@ -37,17 +43,29 @@ else if (is.null(data))
    v.names <- names(DaTa)
        pos <- which(v.names==term)
 if (pos<1) stop("supply a  term")
-if (is.factor(DaTa[,pos])) 
+if (is.factor(DaTa[,pos])||is.character(DaTa[,pos])) 
+{
+  if (is.factor(DaTa[,pos]))
+         {
+              xvar <- levels(DaTa[,pos])
+     x.grid.points <- nlevels(DaTa[,pos])
+      it.is.factor <- TRUE
+         } else 
+         {
+              xvar <- attr(table(DaTa[,pos]),"names")
+     x.grid.points <- length(xvar)  
+      it.is.factor <- TRUE
+         }  
+} else
    {
-         xvar <- levels(DaTa[,pos])
-     x.points <- nlevels(DaTa[,pos])
- it.is.factor <- TRUE
-   } else
-   {
-         xvar <-  seq(from = min(DaTa[,pos]), to=max(DaTa[,pos]), length.out=x.points)
+     if (missing(x.values))
+     {
+       xvar <-  seq(from = min(DaTa[,pos]), to=max(DaTa[,pos]), length.out=x.grid.points)
+     } else { xvar <-  x.values 
+     x.grid.points <- length(x.values)} 
  it.is.factor <- FALSE
    }  
-    dat.temp <- as.data.frame(matrix(0, nrow = dim(DaTa)[1] + x.points, ncol = dim(DaTa)[2]))
+    dat.temp <- as.data.frame(matrix(0, nrow = dim(DaTa)[1] + x.grid.points, ncol = dim(DaTa)[2]))
 names(dat.temp) <- names(DaTa)
 if (pos < 1)  stop("supply a term")
   for (i in 1:dim(dat.temp)[2]) {
@@ -73,8 +91,9 @@ if (is.null(ma))
             levels(DaTa[, i])[which.max(table(DaTa[, i]))]
           else tail(DaTa[, i], 1)
           }
-        }
-      dat.temp[, i] <- c(DaTa[, i], rep(ma, x.points))
+}
+if (is.factor(DaTa[, i])) dat.temp[, i] <- pp<- c(DaTa[,i],factor(rep(ma, x.grid.points)))
+                    else  dat.temp[, i] <-c(DaTa[, i], rep(ma, x.grid.points))
       }
   }
 # family -------------------------------------------------
@@ -84,11 +103,11 @@ if (is.null(ma))
    if (binom) {bd <- obj$bd ; Y <- obj$y}
      dfun <- paste("d", obj$family[[1]],sep="")
      lpar <- eval(parse(text=pdf))()$nopar
-       pp <-  predictAll(obj, newdata = tail(dat.temp, x.points), output="matrix")
-  # get the x.points 
+       pp <-  predictAll(obj, newdata = tail(dat.temp, x.grid.points), output="matrix")
+  # get the x.grid.points 
   # if (binom)
   #      {
-  #      pp <-  predictAll(obj, newdata = tail(dat.temp, x.points), output="matrix")
+  #      pp <-  predictAll(obj, newdata = tail(dat.temp, x.grid.points), output="matrix")
   #        DevIncr <- switch(lpar, 
   #                          fn( Y[i], mu = pp[,"mu"], bd=bd[i]),   # 1
   #                          fn( Y[i], mu = pp[,"mu"],              # 2
@@ -105,17 +124,22 @@ if (is.null(ma))
   TypeDist <- eval(parse(text=pdf))()$type
    if (TypeDist=="Discrete") 
    {
-     yvar <- seq(from =  min(obj$y), to=max(obj$y), 1 )  
+     if (is.null(from)) from <- min(obj$y)
+     if (is.null(to)) to <- max(obj$y)
+     yvar <- seq(from =  from, to=to, 1 )  
    } else
    {
-     yvar <- seq(from = min(obj$y), to=max(obj$y), length.out=y.points )   
+     if (is.null(from)) from <- min(obj$y)
+     if (is.null(to)) to <- max(obj$y)
+     #browser()
+     yvar <- seq(from = from, to=to, length.out=y.grid.points )   
    }   
-    # yvar <- seq(from = min(obj$y), to=max(obj$y), length.out=y.points )      
+    # yvar <- seq(from = min(obj$y), to=max(obj$y), length.out=y.grid.points )      
        qq <- list()
       lqq <- length(xvar) 
-if (lqq==1) # if only one x.points 
+if (lqq==1) # if only one x.grid.points 
 {
-  qq [[1]] <- switch(lpar, 
+  qq[[1]] <- switch(lpar, 
                      eval(call(dfun, p= yvar, mu=pp[,"mu"])),       # 1
                      eval(call(dfun, p= yvar, mu=pp[,"mu"], sigma=pp[,"sigma"])),        # 2
                      eval(call(dfun, p= yvar, mu=pp[,"mu"], sigma=pp[,"sigma"],  nu=pp[,"nu"])),  # 3                   
@@ -131,16 +155,16 @@ if (lqq==1) # if only one x.points
                 eval(call(dfun, x= yvar, mu=pp[,"mu"][i], sigma=pp[,"sigma"][i],  nu=pp[,"nu"][i], tau=pp[,"tau"][i]))) # 4
   }
  }  
-xaxislabel <- paste0("PE_pdf(", term, ")")
+xaxislabel <- resp
     
  txt.title <- if (missing(title))
 {
-  paste("Partial fitted distributions for", term,"from model", deparse(substitute(obj)))
+  paste("Partial distributions for", resp,"against", term,"from model", deparse(substitute(obj)))
 } else title
    height <- unlist(qq)
         x <- rep(yvar,lqq)
         y <- if (TypeDist == "Discrete") as.vector(t(replicate(max(yvar) + 1, xvar)))
-             else as.vector(t(replicate(y.points, xvar)))
+             else as.vector(t(replicate(y.grid.points, xvar)))
  if (horizontal)
   {
       da <- data.frame(x = x, y = y, height)
@@ -163,6 +187,7 @@ xaxislabel <- paste0("PE_pdf(", term, ")")
                 fill = col.fill[as.factor(da$x)], alpha = alpha, size = size) +
       ggtitle(txt.title) + xlab(term ) + ylab(xaxislabel)
   }
+if (!is.null(xlim))  pp <- pp + xlim(xlim)
   return(pp)
 }
 

@@ -14,6 +14,7 @@ pe_moment <- function   (obj = NULL,
                     scenario = list(), 
                          col = "darkblue",
                         size = 1.3,
+                    factor.size = 15,
                         plot = TRUE,
                         title) 
 {
@@ -82,7 +83,6 @@ if (pos < 1)  stop("supply a term")
  if (binom) {bd <- obj$bd ; Y <- obj$y}
        pp <-  predictAll(obj, newdata = tail(dat.temp, n.points), output = "matrix")
 if (is.null(as.gamlss.family(pdf)$mean)) stop("the moments are not defined currenly in the fitted distribution")
-eval(parse(text=pdf))()$mean
 Mean <- switch(lpar, 
      eval(parse(text=pdf))()$mean(mu=pp[,"mu"]),       # 1
      eval(parse(text=pdf))()$mean(mu=pp[,"mu"], sigma=pp[,"sigma"]), # 2
@@ -107,21 +107,21 @@ if (plot)
   {
 yaxislabel <- paste0("PE_E(",term,")")
     pp <-  ggplot(data=da, aes(x=x, y=mean))+
-      geom_point(color=col, size=size)+
+      geom_point(color=col, size=factor.size, shape="-")+
       ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
   }
   if (moment=="variance")
   {
     yaxislabel <- paste0("PE_V(",term,")")    
     pp <-  ggplot(data=da, aes(x=x, y=sd^2))+
-      geom_point(color=col, size=size)+
+      geom_point(color=col, size=factor.size, shape="-")+
       ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
   } 
   if (moment=="sd")
   {
     yaxislabel <- paste0("PE_sd(",term,")")
     pp <-  ggplot(data=da, aes(x=x, y=sd))+
-      geom_point(color=col, size=size)+
+      geom_point(color=col, size=factor.size, shape="-")+
       ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
   } 
  } else 

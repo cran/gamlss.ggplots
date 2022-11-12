@@ -45,13 +45,16 @@ if  (plot) # if we need to plot
   val$models <- rownames(val)
    gg <- switch(scale,
                 "[0,1]"={
-                  ggplot(val, aes(models, scaled))+
-                    geom_bar(stat="identity", width=width, colour=col)+
-                    ggtitle(txt.title)},
+                  ggplot(val, aes(x=models, y=scaled))+
+                    geom_segment( aes(x=models, xend=models, y=0, yend=scaled), color="skyblue")+
+                    geom_point( color="blue", size=4, alpha=0.6) +# + 
+                    labs(y="scaled AIC")  
+                  },
                 "[max,min]"={ 
                   ggplot(val, aes(models, delta))+
-                    geom_bar(stat="identity", width=width, colour=col)+
-                    ggtitle(txt.title)})
+                    geom_segment( aes(x=models, xend=models, y=0, yend=delta), color="skyblue")+
+                    geom_point( color="blue", size=4, alpha=0.6) 
+                  })
   if (horiz) gg <- gg +coord_flip()         
   return(gg)
 } else

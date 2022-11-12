@@ -32,7 +32,7 @@ if (!is.gamlss(model)) stop("the model should be an gamlss object")
        type <- family$type
       nopar <- family$nopar
        dfun <- paste("d",fname,sep="")
-        pdf <- eval(parse(text=dfun))
+        p_d_f <- eval(parse(text=dfun))
   par.names <- names(family$parameters)
   txt.title <- if (missing(title))  paste("Fitted pdf's from model",deparse(substitute(model)))
   else title  
@@ -45,10 +45,8 @@ if (!is.gamlss(model)) stop("the model should be an gamlss object")
 if (fname%in%gamlss.bi.list)  
 {
          MM <- predictAll(model, newdata=newdata, output = "matrix")
-
          bd <- MM[,"bd"]
         lobs <- dim(newdata)[1] 
-      
   lastcolMM <- dim(MM)[2]
          to <- max(bd)
      y.var  <- pdfArr <- da <- list()  
@@ -58,16 +56,16 @@ for (i in 1:lobs)
     y.var[[i]] <- 0:MM[i,"bd"]
 switch(nopar,
             {
-            pdfArr[[i]] <- pdf(y.var[[i]],  mu=MM[i,"mu"],  bd=MM[i,"bd"])
+            pdfArr[[i]] <- p_d_f(y.var[[i]],  mu=MM[i,"mu"],  bd=MM[i,"bd"])
             },  
             {
-            pdfArr[[i]] <- pdf(y.var[[i]], mu=MM[i,"mu"],  sigma=MM[i,"sigma"], bd=MM[i,"bd"])
+            pdfArr[[i]] <- p_d_f(y.var[[i]], mu=MM[i,"mu"],  sigma=MM[i,"sigma"], bd=MM[i,"bd"])
             },
             {
-            pdfArr[[i]] <- pdf(y.var[[i]],  mu=MM[i,"mu"], sigma=MM[i,3], nu=MM[i,4], bd=MM[i,lastcolMM])
+            pdfArr[[i]] <- p_d_f(y.var[[i]],  mu=MM[i,"mu"], sigma=MM[i,"sigma"], nu=MM[i,"nu"], bd=MM[i,"bd"])
             },
             {
-            pdfArr[[i]] <- pdf(y.var[[i]],  mu=MM[j,"mu"], sigma=MM[i,3], nu=MM[i,4], tau=MM[i,5],  bd=MM[i,lastcolMM])  
+            pdfArr[[i]] <- p_d_f(y.var[[i]],  mu=MM[j,"mu"], sigma=MM[i,"sigma"], nu=MM[i,"nu"], tau=MM[i,"tau"],  bd=MM[i,"bd"])  
             })  
     da[[i]] <- data.frame(y.var[[i]],  pdfArr[[i]])
 }
@@ -120,16 +118,16 @@ for (j in 1:lobs)
       {
   switch(nopar,
          {
-           pdfArr[,j] <- pdf(y.var,  mu=MM[j,2])
+           pdfArr[,j] <- p_d_f(y.var,  mu=MM[j,"mu"])
          },  
          {
-           pdfArr[,j] <- pdf(y.var, mu=MM[j,2],  sigma=MM[j,3])
+           pdfArr[,j] <- p_d_f(y.var, mu=MM[j,"mu"],  sigma=MM[j,"sigma"])
          },
          {
-           pdfArr[,j] <- pdf(y.var,  mu=MM[j,2], sigma=MM[j,3], nu=MM[j,4])
+           pdfArr[,j] <- p_d_f(y.var,  mu=MM[j,"mu"], sigma=MM[j,"sigma"], nu=MM[j,"nu"])
          },
          {
-           pdfArr[,j] <- pdf(y.var,  mu=MM[j,2], sigma=MM[j,3], nu=MM[j,4], tau=MM[j,5])  
+           pdfArr[,j] <- p_d_f(y.var,  mu=MM[j,"mu"], sigma=MM[j,"sigma"], nu=MM[j,"nu"], tau=MM[j,"tau"])  
          })  
 }  # end of look over observations
 ################################################################ 

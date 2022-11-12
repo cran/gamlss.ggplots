@@ -1,9 +1,15 @@
 #################################################################
 require(grid)
 #################################################################
-# for onlr one plot 
-boot_coef_one <- function(x, par=1, add=FALSE, hist.col = "black", hist.fill = "white", 
-                      dens.fill = "#FF6666", title, ...)
+# for only one plot 
+boot_coef_one <- function(x, 
+                        par = 1, 
+                        add = FALSE, 
+                        rug = TRUE, 
+                   hist.col = "black", 
+                  hist.fill = "white", 
+                   line.col = "gray",
+                  dens.fill = "#FF6666", title, ...)
 {
   #  if (add) {lines(density(x$boot[,par]), ... )}
   #  else {
@@ -13,9 +19,10 @@ boot_coef_one <- function(x, par=1, add=FALSE, hist.col = "black", hist.fill = "
   else title  
   gg <- ggplot(da, aes(x =x)) + 
     geom_density(alpha = 0.2, fill = dens.fill) + xlab(name) + 
-    ylab("density") + ggtitle(txt.title)+geom_rug()+
+    ylab("density") + ggtitle(txt.title)+
     geom_vline( xintercept=x$orig.coef[par])+
-    geom_vline( xintercept=quantile(x$boot[,par], c(0.025, .5, .975)), color="gray")
+    geom_vline( xintercept=quantile(x$boot[,par], c(0.025, .5, .975)), color=line.col)
+  if (rug)  gg=gg+geom_rug()
   return(gg)
   #  }
 }  

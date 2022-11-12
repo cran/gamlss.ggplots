@@ -5,7 +5,7 @@ define_region <- function(row, col){
     viewport(layout.pos.row=row, layout.pos.col=col) }
 #################################################################  
 # function starts
-   lterms <- length(terms)
+     lterms <- length(terms)
 if (lterms  >   maxcol*maxrow) stop("increase the maxcol or maxrow")   
 if (lterms  <= 1) stop("only one term use pe_pdf()")
      norow <- ceiling(lterms/maxcol)

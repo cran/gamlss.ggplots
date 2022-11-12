@@ -16,7 +16,6 @@ pe_quantile <- function (obj = NULL,
                     scenario = list(), 
                          col = "darkblue",
                         size = 1.3,
-                 #   name.obj = NULL,
                       legend = TRUE,
                     title) 
 {
@@ -41,7 +40,7 @@ if (is.factor(DaTa[,pos]))
    } else
    {
         xvar <-  seq(from = min(DaTa[,pos]), to=max(DaTa[,pos]), length.out=n.points)
-        it.is.factor <- FALSE
+it.is.factor <- FALSE
    }                 
          mat <- matrix(0, nrow = dim(DaTa)[1] + n.points, ncol = dim(DaTa)[2])
     dat.temp <- as.data.frame(mat)
@@ -110,6 +109,7 @@ if (lqq==1)
   pp <- ggplot(data=da)+
     geom_line( aes(x=x, y=y), color=col, size=size)+
     ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+  
   return(pp)
 } else
 {

@@ -5,7 +5,7 @@
 #   fitted_pdf()  
 #   Mikis Stasinopoulos Bob Rigby Fernanda de Bastiani
 #   February , 2021 
-#   NOTE that for binonial type of data `to' plays the role of 
+#   NOTE that for binomial type of data `to' plays the role of 
 #   binomial denominator so only one binomial denominator is allowed
 #   here
 ################################################################

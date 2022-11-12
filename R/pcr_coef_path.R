@@ -38,26 +38,123 @@
 # }
 #########################################################################
 #########################################################################
+#########################################################################
+# the path of beta coefficients for different smoothing parameters 
+# for a PCR object
 pcr_coef_path <- function(x, legend=FALSE, plot=TRUE)
 {
-     M <- length(x$gamma)
-    da <- t(x$coefficients[1:M, 1:M])
+  if (!inherits(x,"PCR")) stop("the object should be a PCR class")
+         M <- length(x$gamma)
+        da <- t(x$coefficients[1:M, 1:M])
     lambda <- group <- NULL
-    col <- c(col(da))
+       col <- c(col(da))
     if (legend)
     {
-    pp <-  qplot(c(row(da)), c(da),  group = col, colour = col, geom = "line",
+        pp <-  qplot(c(row(da)), c(da),  group = col, colour = col, geom = "line",
            ylab="beta", xlab="lambda")
     } else
     {
-      dat <- data.frame(lambda=c(row(da)), beta=c(da), group=c(col(da)))
-      pp <- ggplot(dat, aes(x=lambda, y=beta, group=group, col=group)) + 
-            geom_line()+
-            theme(legend.position = "none")
+        dat <- data.frame(lambda=c(row(da)), beta=c(da), group=c(col(da)))
+         pp <- ggplot(dat, aes(x=lambda, y=beta, group=group, col=group)) + 
+               geom_line()+
+               theme(legend.position = "none")
     }
 if (plot) print(pp)
 invisible(pp)
 }
+#########################################################################
+#########################################################################
+#########################################################################
+# the path of beta coefficients for different smoothing parameters 
+# for a gamlss model in which PCR is fitted  
+pcr_path <- function(x, parameter=c("mu", "sigma", "nu", "tau"),
+                     legend=FALSE, plot=TRUE)
+{
+if (!is(x,"gamlss")) stop("the object should be a  gamlss class")
+  parameter <- match.arg(parameter)
+         xx <- getSmo(x, parameter=parameter)
+if (!is(xx,"PCR")) stop("not PCR object detected") 
+        pcr_coef_path(xx, legend=legend, plot=plot)+
+          geom_vline(xintercept = xx$pc, colour = "gray")
+}  
+#########################################################################
+#########################################################################
+#########################################################################
+path.plot <- function(x,  parameter=c("mu", "sigma", "nu", "tau"),
+                     xvar = c("norm", "dev", "lambda"))
+{
+  if (!is(x,"gamlss")) stop("the object should be a  gamlss class")
+       parameter <- match.arg(parameter)
+            xvar <- match.arg(xvar)
+              xx <- getSmo(x, parameter=parameter)
+  if (!is(xx[[1]],"glmnet")) stop("not glmnet object detected")            
+             val <- xx[[2]]$optid
+             dev <- xx[[1]]$dev.ratio
+            norm <- colSums(abs(xx[[1]]$beta))
+          lambda <- xx[[1]]$lambda 
+             plot(xx[[1]], xvar=xvar)
+ switch(xvar,
+        "norm"=abline(v=norm[val], col="grey"),
+        "dev"=abline(v=dev[val], col="grey"),
+        "lambda"=abline(v=lambda[val], col="grey"))            
+}                     
+#########################################################################
+#########################################################################
+#########################################################################
+# gnet_path <- function(x, parameter=c("mu", "sigma", "nu", "tau"),
+#                    xvar = c("norm", "dev", "lambda"),
+#                             plot=TRUE)
+# {
+#   browser()
+#   if (!is(x,"gamlss")) stop("the object should be a  gamlss class")
+#   parameter <- match.arg(parameter)
+#       xvar <- match.arg(xvar)
+#          xx <- getSmo(x, parameter)
+#   if (is.null(xx)) stop("there is no smoothet for", parameter, "\n")
+#         val <- xx[[2]]$optid
+#         dev <- xx[[1]]$dev.ratio*100
+#          df <- xx[[1]]$df
+#          browser()
+#        norm <- colSums(abs(xx[[1]]$beta))
+#                #  apply(abs(xx[[1]]$beta),2, sum)
+#      lambda <- xx[[1]]$lambda
+#           M <- length(dev)
+#          da <- as.matrix(xx[[1]]$beta)
+#         # colSums(abs(da))
+#       group <- NULL
+#         col <- c(row(da))
+#   switch (xvar, 
+#         "norm"={
+#           browser()
+#           dat <- data.frame(norm=c(norm[col]), beta=c(da), group=c(row(da)))
+#           names(dat)
+#           pp <- ggplot(dat, aes(x=lambda, y=beta, group=group, col=group)) + 
+#             geom_line()+
+#             theme(legend.position = "none")
+#         },
+#         "dev" ={dat <- data.frame(lambda=c(col(da)), beta=c(da), group=c(row(da)))
+#         pp <- ggplot(dat, aes(x=lambda, y=beta, group=group, col=group)) + 
+#           geom_line()+
+#           theme(legend.position = "none")},
+#         "lambda"={dat <- data.frame(lambda=c(col(da)), beta=c(da), group=c(row(da)))
+#         pp <- ggplot(dat, aes(x=lambda, y=beta, group=group, col=group)) + 
+#           geom_line()+
+#           theme(legend.position = "none")})
+#         
+#   # if (legend)
+#   # {
+#   #   pp <-  qplot(c(col(da)), c(da),  group = col, colour = col, geom = "line",
+#   #                ylab="beta", xlab="lambda")
+#   # } else
+#   # {
+#   #   dat <- data.frame(lambda=c(col(da)), beta=c(da), group=c(row(da)))
+#   #   pp <- ggplot(dat, aes(x=lambda, y=beta, group=group, col=group)) + 
+#   #     geom_line()+
+#   #     theme(legend.position = "none")
+#   # }
+#   if (plot) print(pp)
+#   invisible(pp)
+# }
 #########################################################################
 #########################################################################
 #########################################################################

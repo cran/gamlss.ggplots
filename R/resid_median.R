@@ -3,9 +3,17 @@
 #   first function
 ########################################################################
 ########################################################################
+# the idea is the the resid_fitted should replace
+# resid_fv so the default is resid against median
+# with options for 
+# resid_fv is what is currentl
+# resid_fitted
+# resid_quantile
+# resid_param
 ########################################################################
 ########################################################################   
-resid_mu <- function (obj, resid, plot = TRUE, value=2, title, annotate=TRUE) 
+resid_median <- function (obj, resid, plot = TRUE, value=3, title, 
+                          annotate=TRUE) 
 {
 # Note that I am taking the 
 # obj$resid rather resid(obj) so I can preserve the no of the observations
@@ -14,7 +22,7 @@ resid_mu <- function (obj, resid, plot = TRUE, value=2, title, annotate=TRUE)
 gamlss_prep_data <- function (obj, value=2) 
 {
     sdres <- obj$residuals
-       fv <- obj$mu.fv
+       fv <- quantile_gamlss(obj, quantile=0.5)
 #sdres_out <- abs(sdres) > value
       obs <- seq_len(length(sdres))
 #  outlier <- sdres[sdres_out]
@@ -49,6 +57,7 @@ return(out)
   # the main function starts here  
 if (missing(obj)&&missing(resid))  stop("A GAMLSS fitted object or the argument resid should be used")
 if (!missing(obj)&&!is.gamlss(obj)) stop("the model is not a gamlss model")
+  
 d <- if (missing(obj)) other_prep_data(resid, value=value) 
      else             gamlss_prep_data(obj,   value=value) 
 txt.title <- if (missing(title))  paste("Residuals & fitted vals of model",deparse(substitute(obj)))
