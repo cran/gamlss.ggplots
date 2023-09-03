@@ -1,9 +1,11 @@
-# function 4
-##########################################################################33 
+################################################################################
+################################################################################
+################################################################################
+################################################################################ 
 model_wp <- function(obj,..., 
                          title)
 {
-###########################################################################
+################################################################################
 # local function
 gamlss_prep_data <- function (obj, ... ) 
   {
@@ -33,7 +35,7 @@ gamlss_prep_data <- function (obj, ... )
     }
     return(out)    
 }  
-############################################################################
+################################################################################
 getSE <- function(xlim, level=0.95)
 {
     lz <- -xlim
@@ -46,8 +48,8 @@ getSE <- function(xlim, level=0.95)
   high <- -low
   data.frame(high=high, low=low, z=z)
 }
-############################################################################
-############################################################################
+################################################################################
+################################################################################
 x <- rqres  <- model <-  low <- high <- z <- NULL   
    names <- as.character(match.call()[-1])[1:(length(list(...))+1)]
 if (!missing(obj)&&!is.gamlss(obj)) stop("the model is not a gamlss model")
@@ -57,17 +59,22 @@ if (length(names)<=1) stop("you need more than two models")
        table(d$model)
 txt.title <- if (missing(title))  "worm-plots of residuals from different models" else title   
    se <- getSE(max(abs(d$x))+.5)
-gg <- ggplot() + 
-  geom_ribbon(data=se, aes(ymin = low, ymax = high, x = z), alpha = 0.1)+
-  geom_point(data = d, aes(x = x, y = rqres, color=model),  alpha=.8 ) + # shape = 1, must include argument label "data"
-  geom_line(data = se, aes(x = z, y = low), lty=2)+
-  geom_line(data = se, aes(x = z, y = high), lty=2)+
-  xlab("Unit normal quantile") + 
-  ylab("Deviation")+
-  geom_hline(yintercept = 0, colour = "gray")+
-  geom_vline(xintercept = 0, colour = "gray")+
-  ggtitle(txt.title)
+gg <- ggplot2::ggplot() + 
+  ggplot2::geom_ribbon(data=se, 
+          ggplot2::aes(ymin = low, ymax = high, x = z), alpha = 0.1)+
+  ggplot2::geom_point(data = d, aes(x = x, y = rqres, color=model),  alpha=.8 ) + 
+  # shape = 1, must include argument label "data"
+  ggplot2::geom_line(data = se, ggplot2::aes(x = z, y = low), lty=2)+
+  ggplot2::geom_line(data = se, ggplot2::aes(x = z, y = high), lty=2)+
+  ggplot2::xlab("Unit normal quantile") + 
+  ggplot2::ylab("Deviation")+
+  ggplot2::geom_hline(yintercept = 0, colour = "gray")+
+  ggplot2::geom_vline(xintercept = 0, colour = "gray")+
+  ggplot2::ggtitle(txt.title)
     return(gg)
 }
-######################################################################## 
-######################################################################## 
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+

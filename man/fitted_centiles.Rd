@@ -12,7 +12,7 @@ The function \code{fitted_centiles()} plots centiles curves for distributions be
 
 The function \code{fitted_centiles_legend()} plots centiles curves for distributions belonging to the GAMLSS family of distributions and it is  equivalent to the standard plot of \code{gamlss:::centiles()} with a legend. The function  is slower than \code{fitted_centiles()} since in order to plot the legend the data have to expanded.  
 
-The function \code{model_centiles()} plots centile curves for more than one model.  There is no equivanlt standard plot but it perform the same function as \code{gamlss:::centiles.com()}  which compares centiles from different models.
+The function \code{model_centiles()} plots centile curves for more than one model.  There is no equivalent  plot in the original GAMLSS centile plots  but it perform the same function as \code{gamlss:::centiles.com()}  which compares centiles from different models.
 
 
 }
@@ -22,13 +22,14 @@ fitted_centiles(obj, xvar,
                points = TRUE, point.col = "gray", 
                point.size = 1, line.size = 0.8, 
                line.col = hcl.colors(lc, palette = "Dark 2"), 
+               line.type = rep(1, length(cent)),
                xlab = NULL, ylab = NULL, title, ...)
                
 fitted_centiles_legend(obj, xvar, 
                cent = c(99.4, 98, 90, 75, 50, 25, 10, 2, 0.4),   
                points = TRUE, point.col = "gray", point.size = 1, 
                line.size = 0.8, line.col = hcl.colors(ncent, 
-               palette = "Dark 2"),                  
+               palette = "Dark 2"), line.type = rep(1, length(cent)),               
                show.legend = TRUE, save.data = FALSE, title, 
                xlab = NULL, ylab = NULL, ...)               
 
@@ -44,15 +45,16 @@ model_centiles(obj, ..., cent = c(97, 90, 75, 50, 25, 10, 3),
 \arguments{
   \item{obj}{a fitted gamlss object}
   \item{xvar}{the (unique) explanatory variable}
-  \item{cent}{a vector with elements the \% centile values for which the centile curves have to be evaluated}
+  \item{cent}{a vector with elements the \% centile values for which the centile curves have to be evaluated (note that the order is from the highest to the lowest so legend and  the plots are maching)}
   \item{points}{whether to plot the points (\code{TRUE}) of the data or not (\code{FALSE})}
   \item{point.col}{the colour of the points}
   \item{point.size}{the zize of the points}
   \item{line.size}{the sized of the centile lines}
   \item{line.col}{the colour of the  centile lines}
+  \item{line.type}{the type of line (different types of lines for each centile are working with \code{fitted_centiles_legend})}
   \item{xlab}{the label of the x-axis variable}
   \item{ylab}{the label of the resposnse variable}
-   \item{in.one}{whether the \code{model_centile} plot should ne one or multiple}
+   \item{in.one}{whether the \code{model_centile} plot should be one or multiple}
   \item{title}{the title if need it otherwise a dfault title is pronted}
     \item{show.legend}{whether to show the legend}
   \item{save.data}{whether to save the \code{data.frame} of the plot}

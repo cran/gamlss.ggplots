@@ -1,15 +1,17 @@
-################################################################
-################################################################
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #   fitted_cdf()  
 #   Mikis Stasinopoulos Bob Rigby Fernanda de Bastiani
 #   February , 2021 
 #   NOTE that for binonial type of data `to' plays the role of 
 #   binomial denominator so only one binomial denominator is allowed
 #   here
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 family_cdf<- function (family = NO(),
                            mu = NULL,
                         sigma = NULL,
@@ -125,15 +127,15 @@ if (fname%in%gamlss.bi.list)
 y.title <- if(type=="Discrete")  "P(Y=y)" else  "f(y)"
 ############################################################
 da <- data.frame(y.var,  cdfArr)
-    p11 <- ggplot(data=da) 
+    p11 <- ggplot2::ggplot(data=da) 
 if (type=="Discrete")
 {
   if (lobs==1) 
   {
     
     p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-      geom_step(direction = "hv", 
-                aes_string(x = "y.var", y = cdfArr),  
+      ggplot2::geom_step(direction = "hv", 
+              ggplot2::aes(x = .data[[y.var]], y = .data[[cdfArr]]),  
                 size = size.point, color = col.fill[1])
       #geom_segment(mapping = aes(x=y.var, y=cdfArr, xend = y.var, yend = 0), 
        #            color=col.fill[1],  size=size.seqment)
@@ -143,8 +145,8 @@ if (type=="Discrete")
     for (i in 1:lobs)
     {
      # p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-        p11 <- p11 + geom_step(direction = "hv", 
-                               aes_string(x = "y.var", y = paste0("X",i)),  
+        p11 <- p11 + ggplot2::geom_step(direction = "hv", 
+                               aes(x = .data[["y.var"]], y = .data[[paste0("X",i)]]),  
                                size= size.point, color=col.fill[i])
           #    geom_segment(mapping =  aes_string(x="y.var", y=paste0("X",i),
            #          xend = "y.var", yend = 0), 
@@ -157,17 +159,23 @@ if (type=="Discrete")
   }
 } else
 {
-  if (lobs==1) p11 = p11 +geom_line(color=col.fill[1], alpha=alpha, size=size.line, aes(x=y.var, y=cdfArr))
+  if (lobs==1) p11 = p11 + ggplot2::geom_line(color=col.fill[1], alpha=alpha, 
+                                              size=size.line, aes(x=y.var, y=cdfArr))
   else
   {# more than one
     for (i in 1:lobs)
     {
-      p11 <-p11 + geom_line(color=col.fill[i], alpha=alpha, size=size.line, aes_string(x="y.var", y=paste0("X",i)))
+      p11 <-p11 +  ggplot2::geom_line(color=col.fill[i], alpha=alpha, size=size.line, 
+                            ggplot2::aes(x=.data[["y.var"]], y= .data[[paste0("X",i)]]))
     } 
   }
 }  
-  p11 = p11 + labs(x = "y", y =  y.title)+
-              xlim(from,to)+
-              ggtitle(txt.title)
+  p11 = p11 +  ggplot2::labs(x = "y", y =  y.title)+
+               ggplot2::xlim(from,to)+
+               ggplot2::ggtitle(txt.title)
 p11
 }
+################################################################################
+################################################################################
+################################################################################
+################################################################################

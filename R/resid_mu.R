@@ -1,15 +1,17 @@
-########################################################################
-########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #   first function
-########################################################################
-########################################################################
-########################################################################
-########################################################################   
+################################################################################
+################################################################################
+################################################################################
+################################################################################   
 resid_mu <- function (obj, resid, plot = TRUE, value=2, title, annotate=TRUE) 
 {
 # Note that I am taking the 
 # obj$resid rather resid(obj) so I can preserve the no of the observations
-########################################################################
+################################################################################
 # local functions 
 gamlss_prep_data <- function (obj, value=2) 
 {
@@ -28,7 +30,7 @@ out$fct_color <- ordered(factor(out$color), levels = c("normal", "outlier"))
   out$txt <- ifelse(out$color == "outlier", out$obs, NA)
   return(out)
   } 
-#####################################################################
+################################################################################
   other_prep_data <- function (resid, value=2) 
   {
     sdres <- resid
@@ -45,7 +47,7 @@ out$fct_color <- ordered(factor(out$color), levels = c("normal",
  out$txt <- ifelse(out$color == "outlier", out$obs, NA)
 return(out)
 }  
-#######################################################################
+################################################################################
   # the main function starts here  
 if (missing(obj)&&missing(resid))  stop("A GAMLSS fitted object or the argument resid should be used")
 if (!missing(obj)&&!is.gamlss(obj)) stop("the model is not a gamlss model")
@@ -59,17 +61,20 @@ else title
         f <- d[d$color == "outlier", c("obs", "sdres")]
 colnames(f) <- c("observation", "quan_resid")
 # try colors() for different colors
-  p <- ggplot(d, aes(x = fv, y = sdres, label = txt, ymin = 0, ymax = sdres)) + 
-       geom_linerange(colour =  "steelblue4" ) + 
-       geom_point(shape = 1, colour = "steelblue4"  ) + 
-       geom_hline(yintercept = 0, colour = "gray") + 
-       geom_hline(yintercept = c(value, -value), colour = "red") + 
-       xlab("mu fitted values") + 
-       ylab("Quantile Residuals") + 
-       ggtitle(txt.title) + 
-       geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif", 
+  p <- ggplot2::ggplot(d, 
+       ggplot2::aes(x = fv, y = sdres, label = txt, ymin = 0, ymax = sdres)) + 
+       ggplot2::geom_linerange(colour =  "steelblue4" ) + 
+       ggplot2::geom_point(shape = 1, colour = "steelblue4"  ) + 
+       ggplot2::geom_hline(yintercept = 0, colour = "gray") + 
+       ggplot2::geom_hline(yintercept = c(value, -value), colour = "red") + 
+       ggplot2::xlab("mu fitted values") + 
+       ggplot2::ylab("Quantile Residuals") + 
+       ggplot2::ggtitle(txt.title) + 
+       ggplot2::geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, 
+              family = "serif", 
               fontface = "italic", colour = "darkred", na.rm = TRUE) + 
-      if(annotate) annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = value, 
+      if(annotate) 
+        ggplot2::annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = value, 
              family = "serif", fontface = "italic", colour = "darkred", 
              label = paste0("Threshold: abs(", value, ")"))
   if (plot) {
@@ -79,4 +84,7 @@ colnames(f) <- c("observation", "quan_resid")
     return(list(plot = p, outliers = f, threshold = value))
   }
 }
-################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

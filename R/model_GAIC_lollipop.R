@@ -1,9 +1,12 @@
-#########################################################################
-#########################################################################
-#########################################################################
-#########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #  function equivalent to GAIC.scaled 
-######################################################################### 
+################################################################################
+################################################################################
+################################################################################
+################################################################################ 
 model_GAIC_lollipop<- function(object,..., 
                         k = 2,      # which GAIC
                         c = FALSE,  # whether corrected GAIC
@@ -11,7 +14,9 @@ model_GAIC_lollipop<- function(object,...,
                     which = 1,      # for matrix which GAIC column
                  diff.dev = 1000,   # only applies to matrix
              text.to.show = NULL,   # whether the labels should be different
-                      col = "rosybrown",  # colour for the bars
+                      col = "skyblue",  # colour for the bars
+                col.point = "blue",
+                pch.point = 19,
                     width = 0.9,  # widrh of the bar 
                     horiz = TRUE,
                     scale = c("[0,1]","[max,min]"),
@@ -43,19 +48,24 @@ if (is.matrix(object))# if a matrix------------------------------------
 if  (plot) # if we need to plot
 {
   val$models <- rownames(val)
+  val$models <- with(val, reorder(models, scaled, median))
    gg <- switch(scale,
                 "[0,1]"={
-                  ggplot(val, aes(x=models, y=scaled))+
-                    geom_segment( aes(x=models, xend=models, y=0, yend=scaled), color="skyblue")+
-                    geom_point( color="blue", size=4, alpha=0.6) +# + 
-                    labs(y="scaled AIC")  
+                  ggplot2::ggplot(val, ggplot2::aes(x=models, y=scaled))+
+                    ggplot2::geom_segment( aes(x=models, xend=models, y=0, 
+                                               yend=scaled), color=col)+
+                    ggplot2::geom_point( color=col.point, size=4, alpha=0.6, 
+                                         pch=pch.point) +# + 
+                    ggplot2::labs(y="scaled AIC")  
                   },
                 "[max,min]"={ 
-                  ggplot(val, aes(models, delta))+
-                    geom_segment( aes(x=models, xend=models, y=0, yend=delta), color="skyblue")+
-                    geom_point( color="blue", size=4, alpha=0.6) 
+                  ggplot2::ggplot(val, ggplot2::aes(models, delta))+
+                    ggplot2::geom_segment( aes(x=models, xend=models, y=0, 
+                                               yend=delta), color=col)+
+                    ggplot2::geom_point( color=col.point, size=4, alpha=0.6, 
+                                         pch=pch.point) 
                   })
-  if (horiz) gg <- gg +coord_flip()         
+  if (horiz) gg <- gg +ggplot2::coord_flip()         
   return(gg)
 } else
   val <- val[,]
@@ -78,8 +88,8 @@ if (length(list(...))) # if a list of model
          val <- as.data.frame(cbind(df,AIC, delta=round(dAIC,3), scaled=round(oAIC,4)))
         Call <- match.call()## trying to get the names
       Call$k <- Call$c <- Call$plot <- Call$text.cex <- Call$which <- Call$diff.dev <- Call$horiz <- Call$scale <- NULL 
-row.names(val) <- if (is.null(text.to.show)) as.character(Call[-1])
-                 else text.to.show
+row.names(val) <- if (is.null(text.to.show)) as.character(Call[-1][1:length(object)])
+                  else text.to.show
 #-----------------------------------------------
   if  (plot) # if we need to plot
       {
@@ -103,21 +113,24 @@ row.names(val) <- if (is.null(text.to.show)) as.character(Call[-1])
                          #     panel.border = element_blank(),
                          #     axis.ticks.y = element_blank()
                          #   )    
-                            ggplot(val, aes(x=models, y=scaled))+
-                            geom_segment( aes(x=models, xend=models, y=0, yend=scaled), color="skyblue")+
-                            geom_point( color="blue", size=4, alpha=0.6) +# + 
-                         labs(y="scaled AIC")   
+                         ggplot2::ggplot(val, ggplot2::aes(x=models, y=scaled))+
+                           ggplot2::geom_segment( aes(x=models, xend=models, y=0, 
+                                                      yend=scaled), color=col)+
+                           ggplot2::geom_point( color=col.point, size=4, alpha=0.6, 
+                                                pch=pch.point) +# + 
+                           ggplot2::labs(y="scaled AIC")   
                          #theme_light()+
                             #ggtitle(paste("GAIC's in",scale, "scale"))
                             },
-
                      "[max,min]"={ 
-                             ggplot(val, aes(models, delta))+
-                         geom_segment( aes(x=models, xend=models, y=0, yend=delta), color="skyblue")+
-                         geom_point( color="blue", size=4, alpha=0.6)  #+ 
+                       ggplot2::ggplot(val, ggplot2::aes(models, delta))+
+                         ggplot2::geom_segment( aes(x=models, xend=models, y=0, 
+                                                    yend=delta), color=col)+
+                         ggplot2::geom_point( color=col.point, size=4, alpha=0.6,  
+                                              pch=pch.point)  #+ 
                            #ggtitle(paste("GAIC's ordered from",scale))
                        })
-    if (horiz) gg <- gg +coord_flip()         
+    if (horiz) gg <- gg + ggplot2::coord_flip()         
           return(gg)
       } else
       val <- val[,]
@@ -132,7 +145,7 @@ else # if only one model just print
   }
 }
 # end of model_GAIC
-#########################################################################
-#########################################################################
-#########################################################################
-#########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

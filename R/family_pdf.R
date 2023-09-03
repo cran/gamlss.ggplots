@@ -1,15 +1,17 @@
-################################################################
-################################################################
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #   fitted_pdf()  
 #   Mikis Stasinopoulos Bob Rigby Fernanda de Bastiani
 #   February , 2021 
 #   NOTE that for binomial type of data `to' plays the role of 
 #   binomial denominator so only one binomial denominator is allowed
 #   here
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 family_pdf<- function (family = NO(),
                       mu = NULL,
                    sigma = NULL,
@@ -124,13 +126,14 @@ if (fname%in%gamlss.bi.list)
 y.title <- if(type=="Discrete")  "P(Y=y)" else  "f(y)"
 ############################################################
      da <- data.frame(y.var,  pdfArr)
-    p11 <- ggplot(data=da) 
+    p11 <- ggplot2::ggplot(data=da) 
 if (type=="Discrete")
 {
   if (lobs==1) 
   {
     p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-      geom_segment(mapping = aes(x=y.var, y=pdfArr, xend = y.var, yend = 0), 
+      ggplot2::geom_segment(mapping =  ggplot2::aes(x=y.var, y=pdfArr, xend = y.var, 
+                                                  yend = 0), 
                    color=col.fill[1],  size=size.seqment)
   }
   else
@@ -138,28 +141,36 @@ if (type=="Discrete")
     for (i in 1:lobs)
     {
       p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-              geom_segment(mapping =  aes_string(x="y.var", y=paste0("X",i),
-                     xend = "y.var", yend = 0), 
+             ggplot2::geom_segment(mapping =   ggplot2::aes_string(x="y.var", 
+                        y=paste0("X",i), xend = "y.var", yend = 0), 
                      color=col.fill[i], alpha=alpha, size=size.seqment)
-      if (plot.point) p11 <- p11+geom_point( aes_string(x="y.var", y=paste0("X",i)),  
+      if (plot.point) p11 <- p11+ ggplot2::geom_point(  
+            ggplot2::aes_string(x="y.var", y=paste0("X",i)),  
                         size= size.point, color=col.fill[i])
-      if (plot.line)  p11 <- p11 + geom_line( aes_string(x="y.var", y=paste0("X",i)),  
+      if (plot.line)  p11 <- p11 +  ggplot2::geom_line(  
+        ggplot2::aes_string(x="y.var", y=paste0("X",i)),  
                         size= size.line, color=col.fill[i])
     } 
   }
 } else
 {
-  if (lobs==1) p11 = p11 +geom_area(fill=col.fill[1], alpha=alpha, aes(x=y.var, y=pdfArr))
+  if (lobs==1) p11 = p11 +  ggplot2::geom_area(fill=col.fill[1], alpha=alpha, 
+                                               ggplot2::aes(x=y.var, y=pdfArr))
   else
   {# more than one
     for (i in 1:lobs)
     {
-      p11 <-p11 + geom_area(fill=col.fill[i], alpha=alpha, aes_string(x="y.var", y=paste0("X",i)))
+      p11 <-p11 +  ggplot2::geom_area(fill=col.fill[i], alpha=alpha,  
+                  ggplot2::aes_string(x="y.var", y=paste0("X",i)))
     } 
   }
 }  
-  p11 = p11 + labs(x = "y", y =  y.title)+
-              xlim(from,to)+
-              ggtitle(txt.title)
+  p11 = p11 +  ggplot2::labs(x = "y", y =  y.title)+
+    ggplot2::xlim(from,to)+
+    ggplot2::ggtitle(txt.title)
 p11
 }
+################################################################################
+################################################################################
+################################################################################
+################################################################################

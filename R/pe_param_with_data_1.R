@@ -1,11 +1,15 @@
-#################################################################
-#################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 # created on the 08-06-2021
 # TO DO
 # i) what is data set incules character vectors no declared as factors
 # ii) not going aoud the whole dat but only the ones in formulae
-#################################################################
-#################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 pe_param <- function(obj = NULL, # the gamlss object
                     term = NULL, # which terms to get the derivative
                     data = NULL, # which data is needed here
@@ -31,7 +35,7 @@ pe_param <- function(obj = NULL, # the gamlss object
                     title) # whether to plot
 {
      lterm <- length(term)
-  name.obj <-  deparse(substitute(obj))
+  name.obj <-  if (is.null(name.obj)) deparse(substitute(obj))
 if (lterm==1) {gg <-  pe_1_param(obj = obj, 
                                 term = term, 
                                 data = data, 
@@ -75,17 +79,18 @@ else if (lterm==2) {
     else stop("only up to two way interactions can be plotted")
   gg  
 }
-#################################################################
-#################################################################
-#################################################################
-#################################################################
-#################################################################
-#################################################################
+
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 # created on the 08-06-2021
 # to Do
 # i) what is data set inculeds character vectors no declared as factors
-#################################################################
-#################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 pe_1_param <- function(obj = NULL, # the gamlss object
                        term = NULL, # which term to get the derivative
                        data = NULL, # which data is needed here
@@ -219,49 +224,54 @@ aver.fittted.star <- switch(scale.from,
         y_name <- paste(obj$call$formula[[2]])
 if (it.is.factor)
     {
-      pp <-  ggplot(data=da, aes(x, y))+
-             geom_point(color=col, size=factor.size, shape="-")+
-             ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+      pp <-  ggplot2::ggplot(data=da, ggplot2::aes(x, y))+
+        ggplot2::geom_point(color=col, size=factor.size, shape="-")+
+        ggplot2::ylab(yaxislabel)+ 
+        ggplot2::xlab(term)+ 
+        ggplot2::ggtitle(txt.title)
     if ( !is.null(ylim))
       {
-        pp <- pp + ylim(ylim)
+        pp <- pp + ggplot2::ylim(ylim)
       }  
     if (data.plot)
      {
        if (parameter!="mu")  stop("data.plot=TRUE can be used only with parameter=\"mu\"") 
        if (type=="link") stop("it is not a good idea to plot the data with type=\"eta\"") 
        pp <- pp +
-             geom_jitter(data = DaTa, aes(DaTa[,term], y=DaTa[,y_name]-value1stlevel),
-                     size=data.size, alpha=data.alpha, colour=data.col)
+         ggplot2::geom_jitter(data = DaTa, 
+                  ggplot2::aes(DaTa[,term], y=DaTa[,y_name]-value1stlevel),
+                     size = data.size, alpha = data.alpha, colour = data.col)
      }
     } else 
     {
-      pp <- ggplot(data=da) +
-            geom_line( aes(x=x, y=y), color=col, size=size) +
-            ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+      pp <- ggplot2::ggplot(data=da) +
+        ggplot2::geom_line( ggplot2::aes(x=x, y=y), color=col, size=size) +
+        ggplot2::ylab(yaxislabel)+ 
+        ggplot2::xlab(term)+ 
+        ggplot2::ggtitle(txt.title)
       if (data.plot)
       {
         if (parameter!="mu")  stop("data.plot=TRUE can be used only with parameter=\"mu\"") 
         if (type=="link") stop("it is not a good idea to plot the data with type=\"eta\"") 
-       pp <- pp+  geom_point(data=DaTa,aes(y =DaTa[,y_name]- aver.fittted.star,  x=DaTa[,term]),
-                   size=data.size, alpha=data.alpha, colour=data.col)#
+       pp <- pp +  ggplot2::geom_point(data=DaTa,aes(y =DaTa[,y_name]- aver.fittted.star,  x = DaTa[,term]),
+                   size = data.size, alpha = data.alpha, colour = data.col)#
       }
       if ( rug.plot)
       {
        pp <- pp +
-        geom_rug(data=DaTa, aes(x=DaTa[,pos]), col=rug.col, size=rug.size)
+         ggplot2::geom_rug(data=DaTa, ggplot2::aes(x=DaTa[,pos]), col=rug.col, size=rug.size)
       }
       if ( !is.null(ylim))
       {
-        pp <- pp + ylim(ylim)
+        pp <- pp + ggplot2::ylim(ylim)
       }  
     }          
     return(pp)
 }
-#################################################################
-#################################################################
-#################################################################
-#################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 pe_2_param <- function(obj = NULL, # the gamlss object
                     terms = NULL, # which terms to get the derivative
                      data = NULL, # which data is needed here
@@ -301,7 +311,7 @@ if (any(grepl("data", names(obj$call))))
       else if (is.null(data)) stop("The data argument is needed in obj")
         v.names <- names(DaTa)
             pos <- match(terms, v.names)
-  lpos <- length(pos)                    
+           lpos <- length(pos)                    
 if (lpos<=1) stop("supply 2 terms")
 if (lpos>3) stop("only up to two terms are allowed")   
     WhichFactor <- sapply(DaTa[,pos], is.factor)
@@ -321,6 +331,7 @@ if (length(pf)==2)
        case <- 3 # both factors
      } else
      {
+if (pv==2)   stop("the factor should be set second in order i.e c(\"var\",\"fac\")")         
         fac <- levels(DaTa[,pos[pf]])
 # n.points.f <- nlevels(DaTa[,pos[pf]])
         var <- seq(min(DaTa[,pos[pv]]), max(DaTa[,pos[pv]]), length.out=n.points)
@@ -384,57 +395,62 @@ fittted.orig <- predict(obj, newdata=tail(dat.temp, dim(d1)[1]), type = type, pa
      y_name <- paste(obj$call$formula[[2]])
 if (case==1)
     {
-      pp  <-  ggplot(da, aes_string(terms[1], terms[2]))
+      pp  <-  ggplot2::ggplot(da, ggplot2::aes_string(terms[1], terms[2]))
 if (data.plot)  
-  pp <- pp + geom_point(data=DaTa,aes(x=DaTa[,terms[[1]]], y=DaTa[,terms[[2]]]), 
+  pp <- pp + ggplot2::geom_point(data=DaTa, 
+             ggplot2::aes(x=DaTa[,terms[[1]]], y=DaTa[,terms[[2]]]), 
                                 size=data.size, alpha=data.alpha, colour=data.col)
-      pp <-  if (filled)  pp + geom_contour_filled(aes(z = da[,1]), bins=bins/3 )
-              else        pp + geom_contour(aes(z = da[,1]), bins=bins, size=size,  colour=col)
+      pp <-  if (filled)  pp + ggplot2::geom_contour_filled(
+        ggplot2::aes(z = da[,1]), bins=bins/3 )
+              else        pp + ggplot2::geom_contour(
+                ggplot2::aes(z = da[,1]), bins=bins, size=size,  colour=col)
       pp 
-      pp <- pp + ggtitle(txt.title)
+      pp <- pp + ggplot2::ggtitle(txt.title)
     } 
   if (case==2)
     {
-     pp <- ggplot(da, aes_string(x=terms[pv], y=da[,1], color=terms[pf]))+
-           geom_line(size=size)+
-            ggtitle(txt.title)
+     pp <- ggplot2::ggplot(da, ggplot2::aes_string(x=terms[pv], y=da[,1], 
+                                                   color=terms[pf]))+
+       ggplot2::geom_line(size=size)+
+       ggplot2::ggtitle(txt.title)
    if (data.plot)
     {
      if (type=="link") warning("it is not a good idea to plot the data with type=\"eta\"") 
-     pp <- pp +   geom_point(data=DaTa,aes(x=DaTa[,terms[pv]], y=DaTa[,y_name]), 
-                             size=data.size, alpha=data.alpha, colour=data.col)  
+     pp <- pp +   ggplot2::geom_point(data = DaTa,
+                  ggplot2::aes(x=DaTa[,terms[pv]], y=DaTa[,y_name]), 
+                             size = data.size, alpha=data.alpha, colour=data.col)  
     }
        
     }  
   if (case==3)
   {
-    pp <- ggplot(data=da, aes_string(x=terms[1], y=da[,1], group=terms[2], color=terms[2]))+
-          geom_line()+
-          geom_point(size=size+2)
+    pp <- ggplot2::ggplot(data=da, 
+          ggplot2::aes_string(x=terms[1], y=da[,1], group=terms[2], color=terms[2]))+
+      ggplot2::geom_line()+
+      ggplot2::geom_point(size=size+2)
     if (data.plot)  
       {
       if (type=="link") warning("it is not a good idea to plot the data with type=\"eta\"") 
-     pp <-  pp + geom_jitter(data = DaTa, 
-                                  aes(x=DaTa[,terms[[1]]], y=DaTa[,y_name]),
-                                      size=data.size, alpha=data.alpha, colour=data.col)
+     pp <-  pp +ggplot2:: geom_jitter(data = DaTa, 
+                ggplot2::aes(x=DaTa[,terms[[1]]], y=DaTa[,y_name]),
+                    size=data.size, alpha=data.alpha, colour=data.col)
       }
-    pp <- pp +  ggtitle(txt.title)
+    pp <- pp +  ggplot2::ggtitle(txt.title)
     
   }
       return(pp)
-
 }
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #require(grid)
 pe_param_grid <- function(model, terms, maxcol=2, maxrow=3, ylim=NULL, ...)
 {  
-################################################################# 
+################################################################################ 
 define_region <- function(row, col){
 viewport(layout.pos.row=row, layout.pos.col=col) }
-#################################################################  
+################################################################################  
 # function starts
   lterms <- length(terms)
 if (lterms  >   maxcol*maxrow) stop("increase the maxcol or maxrow")   
@@ -455,10 +471,10 @@ for (p  in 1:lterms)
     print(GG[[title.term]], vp=define_region(IJ$i[p], IJ$j[p]))
   }
 }
-#######################################################################
-#######################################################################
-#######################################################################
-#######################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 Formulae2DF <- function(formula = list(), data=NULL, weights=NULL, subset=NULL, 
                         na.action, print = TRUE  )
 {
@@ -515,10 +531,10 @@ Formulae2DF <- function(formula = list(), data=NULL, weights=NULL, subset=NULL,
   attr(all.vars, "formula") <- ff
   all.vars
 }
-############################################################################
-############################################################################
-############################################################################
-############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 Formulae2one <- function(formula, sigma=~1, nu=~1, tau=~1, data )
 {
   form <- formula(formula)
@@ -530,7 +546,7 @@ Formulae2one <- function(formula, sigma=~1, nu=~1, tau=~1, data )
   environment(ff) <- globalenv()
   ff
 }
-############################################################################
-############################################################################
-############################################################################
-############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

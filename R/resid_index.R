@@ -59,21 +59,24 @@ out$fct_color <- ordered(factor(out$color), levels =
 colnames(f) <- c("observation", "quan_resid")
 # try colors() for different colors
 #facet_wrap(~ cut_number(rent$A, 6))
-      gg <- ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) + 
-            geom_linerange(colour =  "steelblue4" ) + 
-            geom_point(shape = 1, colour = "steelblue4"  ) + 
-            xlab("Observation number") + # working  with facet_wrap 
-            ylab("Quantile Residuals") + # working  with facet_wrap 
-            ggtitle(txt.title) +  # working  with facet_wrap 
-            geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
-            fontface = "italic", colour = "darkred", na.rm = TRUE)  # working  with facet_wrap 
-   if (no.lines)  suppressWarnings(return(gg))
+      gg <- ggplot2::ggplot(d, ggplot2::aes(x = obs, y = sdres, label = txt, 
+                                      ymin = 0, ymax = sdres)) + 
+            ggplot2::geom_linerange(colour =  "steelblue4" ) + 
+            ggplot2::geom_point(shape = 1, colour = "steelblue4"  ) + 
+            ggplot2::xlab("Observation number") + # working  with facet_wrap 
+            ggplot2::ylab("Quantile Residuals") + # working  with facet_wrap 
+            ggplot2::ggtitle(txt.title) +  # working  with facet_wrap 
+            ggplot2::geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = 
+                              "serif",fontface = "italic", colour = "darkred", 
+                              na.rm = TRUE)  # working  with facet_wrap 
+if (no.lines)  suppressWarnings(return(gg))
 #  facet_wrap(~ cut_number(rent$A, 6))
-  p <- gg + geom_hline(yintercept = 0, colour = "gray") + #not working  with facet_wrap 
-     geom_hline(yintercept = c(value, -value), colour = "red") +  #not working  with facet_wrap 
-    if (annotate) annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = value,
-             family = "serif", fontface = "italic", colour = "darkred",
-             label = paste0("Threshold: abs(", value, ")"))
+  p <- gg + ggplot2::geom_hline(yintercept = 0, colour = "gray") + 
+            ggplot2::geom_hline(yintercept = c(value, -value), colour = "red") +  
+if (annotate) ggplot2::annotate("text", x = Inf, y = Inf, hjust = 1.5, 
+              vjust = value,
+              family = "serif", fontface = "italic", colour = "darkred",
+              label = paste0("Threshold: abs(", value, ")"))
   if (plot) {
     suppressWarnings(return(p))
   }

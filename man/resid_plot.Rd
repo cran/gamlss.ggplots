@@ -103,12 +103,13 @@ pp, 248-273, SAGE Publications Sage India: New Delhi, India.
 }
 
 
-\author{Mikis Stasinopoulos \email{d.stasinopoulos@londonmet.ac.uk}, Bob Rigby and Fernanda De Bastiani}
+\author{Mikis Stasinopoulos, Bob Rigby and Fernanda De Bastiani}
 
 
 \seealso{  \code{\link{gamlss}}, \code{\link{plot.gamlss} }}
 
 \examples{
+library(ggplot2)
 data(rent)
 r1<-gamlss(R~pb(Fl)+pb(A)+H+loc,family=GA,data=rent)
 resid_index(r1)

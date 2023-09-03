@@ -1,14 +1,16 @@
-################################################################
-################################################################
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #   fitted_pdf()  
 #   Mikis Stasinopoulos Bob Rigby Fernanda de Bastiani
 #   28 September, 2022 
 #   TO DO : I have not checked binomial
 #           what about legend? 
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 fitted_pdf <- function (model,
                           obs,
                         title,
@@ -70,11 +72,12 @@ switch(nopar,
     da[[i]] <- data.frame(y.var[[i]],  pdfArr[[i]])
 }
      da0 <- data.frame(y.var=from:to)
-     p11 <- ggplot(data=da0) 
+     p11 <- ggplot2::ggplot(data=da0) 
 if (lobs==1) 
     {
          p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-           geom_segment(data=da[[1]], mapping = aes(x=y.var..i.., y=pdfArr..i.., 
+           ggplot2::geom_segment(data=da[[1]], mapping = 
+                                   ggplot2::aes(x=y.var..i.., y=pdfArr..i.., 
                                       xend = y.var..i.., yend = 0), 
                         color=col.fill[1],  size=size.seqment)
     }
@@ -83,20 +86,21 @@ if (lobs==1)
 for (i in 1:lobs)
          {
            p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-             geom_segment(data=da[[i]], 
-              mapping =  aes(x=y.var..i.., y=pdfArr..i.., 
+             ggplot2::geom_segment(data=da[[i]], 
+              mapping =  ggplot2::aes(x=y.var..i.., y=pdfArr..i.., 
                                        xend = y.var..i.., yend = 0), 
                           color=col.fill[i], alpha=alpha, size=size.seqment)
-  if (plot.point) p11 <- p11+geom_point(data=da[[i]],
-                          aes(x=y.var..i.., y=pdfArr..i..), size= size.point, color=col.fill[i])
-  if (plot.line)  p11 <- p11 + geom_line(data=da[[i]],
-                          aes(x=y.var..i.., y=pdfArr..i..),  
+  if (plot.point) p11 <- p11+ 
+      ggplot2::geom_point(data=da[[i]],
+      ggplot2::aes(x=y.var..i.., y=pdfArr..i..), size= size.point, color=col.fill[i])
+  if (plot.line)  p11 <- p11 + ggplot2::geom_line(data=da[[i]],
+                      ggplot2::aes(x=y.var..i.., y=pdfArr..i..),  
                           size= size.line, color=col.fill[i])
          } 
     }
-     p11 = p11 + labs(x = "y", y =  paste0(fname,"(y)"))+
-       xlim(from,to)+
-       ggtitle( txt.title)     
+     p11 = p11 + ggplot2::labs(x = "y", y =  paste0(fname,"(y)"))+
+       ggplot2::xlim(from,to)+
+       ggplot2::ggtitle( txt.title)     
 return(p11)     
 } # end binomial
 #######################################################################
@@ -134,7 +138,7 @@ if (type=="Discrete")
   if (lobs==1) 
   {
     p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-      geom_segment(mapping = aes(x=y.var, y=pdfArr, xend = y.var, yend = 0), 
+      ggplot2::geom_segment(mapping =ggplot2::aes(x=y.var, y=pdfArr, xend = y.var, yend = 0), 
                    color=col.fill[1],  size=size.seqment)
   }
   else   
@@ -142,43 +146,49 @@ if (type=="Discrete")
     for (i in 1:lobs)
     {
       p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-        geom_segment(mapping =  aes_string(x="y.var", y=paste0("X",i),
+        ggplot2::geom_segment(mapping =  
+        ggplot2::aes_string(x="y.var", y=paste0("X",i),
                                            xend = "y.var", yend = 0), 
                      color=col.fill[i], alpha=alpha, size=size.seqment)
-      if (plot.point) p11 <- p11+geom_point( aes_string(x="y.var", y=paste0("X",i)),  
+      if (plot.point) p11 <- p11+ggplot2::geom_point( 
+        ggplot2::aes_string(x="y.var", y=paste0("X",i)),  
                                              size= size.point, color=col.fill[i])
-      if (plot.line)  p11 <- p11 + geom_line( aes_string(x="y.var", y=paste0("X",i)),  
+      if (plot.line)  p11 <- p11 + ggplot2::geom_line( 
+        ggplot2::aes_string(x="y.var", y=paste0("X",i)),  
                                               size= size.line, color=col.fill[i])
     } 
   }
 } else # continuous 
 {# one plot 
-  if (lobs==1) p11 = p11 +geom_area(fill=col.fill[1], alpha=alpha, aes(x=y.var, y=pdfArr))
+  if (lobs==1) p11 = p11 + ggplot2::geom_area(fill=col.fill[1], 
+                      alpha=alpha, aes(x=y.var, y=pdfArr))
   else
   {# more than one plot
     for (i in 1:lobs)
     {
-  p11 <-p11 + geom_area(fill=col.fill[i], alpha=alpha, aes_string(x="y.var", y=paste0("X",i)))
+  p11 <-p11 + ggplot2::geom_area(fill=col.fill[i], alpha=alpha, 
+              ggplot2::aes_string(x="y.var", y=paste0("X",i)))
     } 
   }
 }  
-  p11 = p11 + labs(x = "y", y =  paste0(fname,"(y)"))+
-              xlim(from,to)+
-              ggtitle( txt.title)
+  p11 = p11 + ggplot2::labs(x = "y", y =  paste0(fname,"(y)"))+
+    ggplot2::xlim(from,to)+
+    ggplot2::ggtitle( txt.title)
 p11
 }
-##############################################################################
-##############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 # adding data in 
 fitted_pdf_data <- function(model, obs, from, to, ...)  
 {
   
   fitted_pdf(model, obs=obs, from=from, to=to, ...)+
-    geom_vline(xintercept = model$y[obs], colour="gray")
+    ggplot2::geom_vline(xintercept = model$y[obs], colour="gray")
 }
-##############################################################################
-##############################################################################
-##############################################################################
-##############################################################################
-##############################################################################
-##############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

@@ -72,12 +72,12 @@ for (i in 1:lobs)
     da[[i]] <- data.frame(y.var[[i]],  cdfArr[[i]])
 }
      da0 <- data.frame(y.var = from:to)
-     p11 <- ggplot(data = da0) 
+     p11 <- ggplot2::ggplot(data = da0) 
 if (lobs == 1) 
     {
          p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-           geom_segment(data = da[[1]], 
-           mapping = aes(x = y.var..i.., y = cdfArr..i.., 
+           ggplot2::geom_segment(data = da[[1]], 
+           mapping = ggplot2::aes(x = y.var..i.., y = cdfArr..i.., 
            xend = y.var..i.., yend = 0, lower.tail = lower.tail), 
            color = col.fill[1],  size = size.seqment)
     }
@@ -86,18 +86,18 @@ if (lobs == 1)
 for (i in 1:lobs)
          {
            p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-             geom_segment(data=da[[i]],
-             mapping =  aes(x=y.var..i.., y=cdfArr..i..,
+             ggplot2::geom_segment(data=da[[i]],
+             mapping =  ggplot2::aes(x=y.var..i.., y=cdfArr..i..,
              xend = y.var..i.., yend = 0),
              color = col.fill[i], alpha = alpha, size = size.seqment)
-   if (plot.line)  p11 <- p11 + geom_line(data=da[[i]],
-                           aes(x=y.var..i.., y=cdfArr..i..),  
-                           size = size.line.disc, color=col.fill[i])
+   if (plot.line)  p11 <- p11 + ggplot2::geom_line(data=da[[i]],
+                  ggplot2::aes(x=y.var..i.., y=cdfArr..i..),  
+                  size = size.line.disc, color=col.fill[i])
          } 
     }
-     p11 = p11 + labs(x = "y", y =  paste0(fname,"(y)")) +
-       xlim(from,to) +
-       ggtitle( txt.title)     
+     p11 = p11 + ggplot2::labs(x = "y", y =  paste0(fname,"(y)")) +
+       ggplot2::xlim(from,to) +
+       ggplot2::ggtitle( txt.title)     
 return(p11)     
 } # end binomial
 #######################################################################
@@ -130,42 +130,43 @@ for (j in 1:lobs)
 }  # end of look over observations
 ################################################################
         da <- data.frame(y.var,  cdfArr)
-       p11 <- ggplot(data=da) 
+       p11 <- ggplot2::ggplot(data=da) 
 if (type=="Discrete")
 {
   if (lobs==1) 
   {
     p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-      geom_step(direction = "hv", 
-      aes_string(x = "y.var", y = cdfArr),  
+      ggplot2::geom_step(direction = "hv", 
+      ggplot2::aes_string(x = "y.var", y = cdfArr),  
       size = size.point, color = col.fill[1])
   }
   else   
   {  
     for (i in 1:lobs)
     {
-        p11 <- p11 + geom_step(direction = "hv", 
-                     aes_string(x = "y.var", y = paste0("X",i)),  
+        p11 <- p11 + ggplot2::geom_step(direction = "hv", 
+                     ggplot2::aes_string(x = "y.var", y = paste0("X",i)),  
                     size= size.point, color=col.fill[i])
-
     } 
   }
 } else # continuous 
 {# one plot 
-  if (lobs==1) p11 = p11 + geom_line(color = col.fill[1], size = size.line, 
+  if (lobs==1) p11 = p11 + ggplot2::geom_line(color = col.fill[1], 
+                           size = size.line, 
                            alpha = alpha, aes(x = y.var, y = cdfArr))
   else
   {# more than one plot
     for (i in 1:lobs)
     {
-  p11 <-  p11 +  geom_line(color = col.fill[i], size = size.line, 
-                           alpha = alpha, aes_string(x = "y.var", y = paste0("X",i)))
+  p11 <-  p11 +  ggplot2::geom_line(color = col.fill[i], size = size.line, 
+                           alpha = alpha, aes_string(x = "y.var", 
+                                                     y = paste0("X",i)))
     } 
   }
 }  
-  p11 = p11 + labs(x = "y", y =  paste0(fname,"(y)")) +
-              xlim(from,to) +
-              ggtitle( txt.title)
+  p11 = p11 + ggplot2::labs(x = "y", y =  paste0(fname,"(y)")) +
+    ggplot2::xlim(from,to) +
+    ggplot2::ggtitle( txt.title)
 p11
 }
 ##############################################################################
@@ -173,7 +174,7 @@ p11
 fitted_cdf_data <- function(model, obs, from, to, ...)  
 {
   fitted_cdf(model, obs=obs, from=from, to=to, ...)+
-    geom_vline(xintercept = model$y[obs], colour="gray")
+    ggplot2::geom_vline(xintercept = model$y[obs], colour="gray")
 }
 #############################################################################
 #############################################################################

@@ -26,7 +26,7 @@ resid_density <- function(obj, resid,
     return(out)
   }  
   ######################################################################## 
-  rqres <- ..density.. <- NULL 
+  rqres <- NULL 
   if (missing(obj)&&missing(resid))  stop("A GAMLSS fitted object or the argument resid should be used")
   if (!missing(obj)&&!is.gamlss(obj)) stop("the model is not a gamlss model")
   d <- if (missing(obj)) other_prep_data(resid) 
@@ -36,7 +36,8 @@ resid_density <- function(obj, resid,
   f <- d[d$color == "outlier", c("obs", "rqres")]
   colnames(f) <- c("observation", "quan_resid")
   gg <- ggplot(d, aes(x=rqres))+
-    geom_histogram(aes(y=..density..),binwidth = 0.2, colour=hist.col, fill=hist.fill)+
+    geom_histogram(aes(y=after_stat(density)),binwidth = 0.2, colour=hist.col, 
+                   fill=hist.fill)+
     geom_density(alpha=0.2, fill=dens.fill)+
     xlab("Quantile Residuals") + 
     ylab("density") + 

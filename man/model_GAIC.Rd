@@ -14,11 +14,12 @@ model_GAIC(object, ..., k = 2, c = FALSE, plot = TRUE,
        which = 1, diff.dev = 1000, text.to.show = NULL, 
        col = "rosybrown", width = 0.9, horiz = TRUE,
        scale = c("[0,1]","[max,min]"), title)
-       
+
 model_GAIC_lollipop(object, ..., k = 2, c = FALSE, plot = TRUE, 
-       which = 1, diff.dev = 1000, text.to.show = NULL,
-       col = "rosybrown", width = 0.9, horiz = TRUE, 
-       scale = c("[0,1]", "[max,min]"), order.val = TRUE, title)       
+         which = 1, diff.dev = 1000, text.to.show = NULL, 
+         col = "skyblue", col.point = "blue", pch.point = 19, 
+         width = 0.9, horiz = TRUE, 
+         scale = c("[0,1]", "[max,min]"), order.val = TRUE, title)  
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,7 +35,9 @@ it allows several GAMLSS object to be compared using a GAIC
   \item{which}{which column of GAIC table to plot}
   \item{diff.dev}{this argument applies only a matrix table produced by \code{chooseDist()} and  prevents models with a difference in deviance greater than \code{diff.dev} from the `best' model to be considered (or plotted).}
   \item{text.to.show}{if NULL, \code{model_GAIC()} shows the model names otherwise the character in this list (the length of which should be equal to the length of models)}
-  \item{col}{The colour of the bars}
+  \item{col}{The colour of the bars (or lines. in the lollipop)}
+  \item{col.point}{The colour of the points in the lollipop}
+   \item{pch.point}{The points character in the lollipop}
   \item{width}{the width of the bars}
   \item{horiz}{whether to plot the bars horizontally (default) or  vertically}
   \item{scale}{the scale of the plot, \code{"[0,1]"} plots the AIC's from the worst to the best models in a scale from  [0,1].  \code{"[max,min]"} plots the AIC's  from the worst model to the best model but in the original scale of the AIC's}
@@ -77,7 +80,7 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 (see also \url{https://www.gamlss.com/}).
 
 }
-\author{Mikis Stasinopoulos \email{d.stasinopoulos@londonmet.ac.uk}, Bob Rigby and Fernanda De Bastiani}
+\author{Mikis Stasinopoulos, Bob Rigby and Fernanda De Bastiani}
 
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

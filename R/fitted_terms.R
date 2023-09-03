@@ -1,12 +1,14 @@
-########################################################################
-########################################################################
-########################################################################
-require(ggplot2)
-require(gamlss)
-require(grid)
-#######################################################################
-#######################################################################
-#######################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+#require(ggplot2)
+#require(gamlss)
+#require(grid)
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 ### function to plot fitted additive terms in a GAMLSS model
 ### it is using ggplot
 ### To DO
@@ -16,9 +18,10 @@ require(grid)
 ### iii) to allow plotting class object Partial OK it needs to go trought all smoothers
 # ACTION NEEDED
 ### Author: Mikis Stasinopoulos
-#######################################################################
-#######################################################################
-####################################################################### 
+################################################################################
+################################################################################
+################################################################################
+################################################################################
    pe_terms = fitted_terms  <- function (object, 
                         what = c("mu","sigma","nu","tau"),  
                    parameter = NULL, 
@@ -382,20 +385,22 @@ if (is.fac[i]) # if the term is a factor
           }
           dse <-  if (is.null(terms)) data.frame(grp = ll, fit = Terms$fit[wi,i], se = Terms$se.fit[wi,i])
                    else                data.frame(grp = ll, fit = Terms$fit[wi],   se = Terms$se.fit[wi])
-          gg  <- ggplot(dse, aes(grp, fit, ymin = fit-2*se, ymax = fit+2*se))
-          gg <- gg + geom_errorbar()+
-                  geom_pointrange(color=term.col)+
-                  ylab(ylabs[i])+xlab(xlabs[i])+ ylim(ylims)
+          gg  <- ggplot2::ggplot(dse, 
+                 ggplot2::aes(grp, fit, ymin = fit-2*se, ymax = fit+2*se))
+          gg <- gg + ggplot2::geom_errorbar()+
+                 ggplot2::geom_pointrange(color=term.col)+
+                ggplot2::ylab(ylabs[i])+xlab(xlabs[i])+ ylim(ylims)
      if ( partial) 
         {
           da <- data.frame(grp = ff, fit = pres[, i])
-          gg  <- ggplot(dse, aes(grp, fit, ymin = fit-2*se, ymax = fit+2*se))
+          gg  <- ggplot2::ggplot(dse, 
+                 ggplot2::aes(grp, fit, ymin = fit-2*se, ymax = fit+2*se))
           gg <- gg + 
-                geom_jitter(data=da, aes(x=grp,y=fit), color=resid.col, 
+            ggplot2::geom_jitter(data=da, aes(x=grp,y=fit), color=resid.col, 
                             size=resid.size, alpha=resid.alpha)+
-                geom_errorbar(data=dse)+
-                geom_pointrange(color=term.col)+
-                ylab(ylabs[i])+xlab(xlabs[i])+ ylim(ylims)
+            ggplot2::geom_errorbar(data=dse)+
+            ggplot2::geom_pointrange(color=term.col)+
+            ggplot2::ylab(ylabs[i])+xlab(xlabs[i])+ ylim(ylims)
           }
 } # end if factor  ---------------------------------------------------
   else 
@@ -412,20 +417,21 @@ if (is.fac[i]) # if the term is a factor
              dse <- data.frame(x=xx[], y=tms[, i], low=tms[, i]-2*Terms$se.fit[, i],
                             high=tms[, i]+2*Terms$se.fit[, i], xx=xx, 
                             pre=pres[, i] )
-              gg <- ggplot(data=dse)+
-                    geom_line(data=dse, aes(x=x, y=y), color=term.col)+
-                    ylab(ylabs[i])+xlab(xlabs[i])+ ylim(ylims)
-              gg <-  gg +  geom_ribbon(aes(ymin=low, ymax=high, x=x), alpha=alpha, fill=col.ribbon )
+              gg <- ggplot2::ggplot(data=dse)+
+                ggplot2::geom_line(data=dse, ggplot2::aes(x=x, y=y), color=term.col)+
+                ggplot2::ylab(ylabs[i])+xlab(xlabs[i])+ ylim(ylims)
+              gg <-  gg +  ggplot2::geom_ribbon(aes(ymin=low, ymax=high, x=x),
+                                          alpha=alpha, fill=col.ribbon )
         if ( partial) 
           {
-              gg <- gg+ geom_point(aes(x=x, y=pre), color=resid.col, 
+              gg <- gg+ ggplot2::geom_point(ggplot2::aes(x=x, y=pre), color=resid.col, 
                                  alpha=resid.alpha, size=resid.size)+
-                   geom_line(data=dse, aes(x=x, y=y), color=term.col)+ 
-                   geom_ribbon(aes(ymin=low, ymax=high, x=x), alpha=alpha, fill=col.ribbon) 
+                ggplot2::geom_line(data=dse, aes(x=x, y=y), color=term.col)+ 
+                ggplot2::geom_ribbon(aes(ymin=low, ymax=high, x=x), alpha=alpha, fill=col.ribbon) 
           }
         if (rug) 
           {
-             gg <-  gg+ geom_rug(aes(x=x,y=y), sides=rug.sides, colour=rug.col)
+             gg <-  gg+ ggplot2::geom_rug(aes(x=x,y=y), sides=rug.sides, colour=rug.col)
           }
 }  
    GG[[i]]  <- gg
@@ -561,7 +567,8 @@ if (n.plots>plots.per.page)
 
 invisible(GG) 
 }
-##########################################################################
-##########################################################################
-##########################################################################
-##########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+

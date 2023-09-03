@@ -7,7 +7,7 @@
 \description{
 The function \code{y_hist()} creates a histogram and a density plot for a continuous variable.
 
-The functions \code{y_acf()} and \code{y_pacf()} are autocorrolation and partial autocorrolation functions.
+The functions \code{y_acf()} and \code{y_pacf()} plot the autocorrolation and partial autocorrolation functions  for y.
 
 The function \code{y_dots()} is design for long tail right skewed variables. It is  a plot emphasising  the right tail of the distribution for such variables. 
 
@@ -21,28 +21,34 @@ y_acf(x, data, title)
 
 y_pacf(x, data, title)
 
-y_dots(y, data, point.size = 2, point.col = "gray", 
-       line.col = c("red", "red"), line.type = c("solid", "dotted"), 
-       line.size = c(1, 1), x.axis.col = "black", 
-       x.axis.line.type = "solid", seed = 123, from, to, title)
+y_dots(y, data, value=3, point.size = 2, point.col = "gray", 
+          quantile = c(.10, .50, .90),
+          line.col = c("black","red", "black"),
+          line.type = c("dotted", "solid",  "dotted"),
+          line.size = c(1,1,1), x.axis.col = "black", 
+          x.axis.line.type = "solid", seed = 123, from, to, title)
 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{y,x}{a continuous variable}
-  \item{data}{where to find y}
+  \item{data}{where to find argument y}
+  \item{value}{value to identify outliers i.e. for upper tail an outliers is if it is greater than Q_3+value*IQ} 
   \item{with.density}{whether a density is required, default is \code{TRUE}}
-  \item{hist.col}{the colour of lines in the histogram}
-  \item{hist.fill}{the colour of the histigram}
+  \item{hist.col}{the colour of lines of the histogram}
+  \item{hist.fill}{the colour of the histogram}
   \item{dens.fill}{the color of the density plot}
-  \item{binwidth}{for the histogram}
-  \item{from}{where to start the histogram (you may have to change \code{binwidth})  }
-  \item{to}{where to finish the histogram  (you may have to change \code{binwidth}) }
+  \item{binwidth}{the binwidth for the histogram}
+  \item{from}{where to start the histogram (you may have to change 
+         \code{binwidth})  }
+  \item{to}{where to finish the histogram  (you may have to change 
+          \code{binwidth}) }
   \item{point.size}{the size of the points in \code{y_dots}}
   \item{point.col}{the colour of the points in \code{y_dots}}
-  \item{line.col}{the color of the verical lines  indication the .50 and .90 quantiles in \code{y_dots}}
-  \item{line.type}{the type of the verical lines  indication the .50 and  .90 quantiles in \code{y_dots}} 
-  \item{line.size}{the size of the verical lines  indication the .50 and  .90 quantiles in \code{y_dots}} 
+   \item{quantile}{the quantile values to plot in \code{y_dots}, the default is  0.10, .50 and .90 }
+  \item{line.col}{the color of the vertical lines  indicating the 0.10, .50 and .90 quantiles in \code{y_dots}}
+  \item{line.type}{the type of the verical lines  indicationg the 0.10, .50 and .90 quantiles in \code{y_dots}} 
+  \item{line.size}{the size of the verical lines  indication the 0.10, .50 and .90 quantiles in \code{y_dots}} 
   \item{x.axis.col}{the colour of the x-axis}
   \item{x.axis.line.type}{the type of the x-axix}
   \item{seed}{the seed to  jitter  the y}
@@ -68,19 +74,20 @@ van Buuren and Fredriks M. (2001) Worm plot: simple diagnostic device for modell
             \emph{Statistics in Medicine}, \bold{20}, 1259--1277
 
 }
-\author{Mikis Stasinopoulos \email{d.stasinopoulos@londonmet.ac.uk}, Bob Rigby and Fernanda De Bastiani}
+\author{Mikis Stasinopoulos, Bob Rigby and Fernanda De Bastiani}
 
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{plot.ecdf}}}
 \examples{
+library(ggplot2)
 y <- rBCT(1000, mu=3, sigma=.1, nu=-1, tau=5)
 y_hist(y)
 gg <- y_hist(y, with.dens=FALSE)
-gg+stat_function(fun = dBCT, args=list(mu=3, sigma=.1,  nu=-1, tau=5), 
+gg + stat_function(fun = dBCT, args=list(mu=3, sigma=.1,  nu=-1, tau=5), 
                  colour = "black")
-gg+ stat_function(fun = dBCT, args=list(mu=3, sigma=.1,  nu=-1, tau=5), 
+gg + stat_function(fun = dBCT, args=list(mu=3, sigma=.1,  nu=-1, tau=5), 
                   geom = "area", alpha=0.5, fill="pink", color="black", n=301)
                   
 y_acf(diff(EuStockMarkets[,1]))    

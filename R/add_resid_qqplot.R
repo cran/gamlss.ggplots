@@ -35,9 +35,9 @@ if (!missing(obj)&&!is.gamlss(obj)) stop("the model is not a gamlss model")
           d <-  gamlss_prep_data(obj,   value=value) 
   txt.title <- if (missing(title))  paste("QQ-plot of the residuals of model",deparse(substitute(obj)))
   else title   
-        gg <- gg + geom_point(data=d,  colour = points.col) +
-             ggtitle(txt.title) +
-             geom_text(hjust = -0.2, nudge_x = 0.05, size = 3,
+        gg <- gg + ggplot2::geom_point(data=d,  colour = points.col) +
+          ggplot2::ggtitle(txt.title) +
+          ggplot2::geom_text(hjust = -0.2, nudge_x = 0.05, size = 3,
               check_overlap = check_overlap, family = "serif", 
               fontface = "italic", colour = "darkblue", na.rm = TRUE) 
   return(gg)

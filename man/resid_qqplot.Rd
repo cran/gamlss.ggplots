@@ -9,7 +9,7 @@ The function \code{resid_qqplot()} produces a single QQ-plot of the residuals fr
 
 The function \code{add_resid_qqplot()} takes a QQ-plot created by \code{resid_qqplot()}  and adds another QQ-plot  from a different fitted model.
 
-The function \code{add_resid_qqplots()} takes different fitted models and creates QQ-plots  for all of them. 
+The function \code{model_resid_qqplots()} takes different fitted models and creates QQ-plots  for all fitted models. 
 
 }
 \usage{
@@ -50,7 +50,7 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 
 (see also \url{https://www.gamlss.com/}).
 }
-\author{Mikis Stasinopoulos \email{d.stasinopoulos@londonmet.ac.uk}, Bob Rigby and Fernanda De Bastiani}
+\author{Mikis Stasinopoulos, Bob Rigby and Fernanda De Bastiani}
 
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

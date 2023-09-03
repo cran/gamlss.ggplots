@@ -1,10 +1,7 @@
-########################################################################
-########################################################################
-#   first function
-########################################################################
-########################################################################
-########################################################################
-########################################################################   
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 fitted_devianceIncr <- function (obj,
                         plot = TRUE,  
                         title, 
@@ -15,7 +12,7 @@ fitted_devianceIncr <- function (obj,
                    annot.col = "white",
                     newdata = NULL ) 
 {
-########################################################################
+################################################################################
 # local functions 
 gamlss_prep_data <- function (obj, quan.val, newdata) 
   {
@@ -63,18 +60,21 @@ out$fct_color <- ordered(factor(out$color), levels =
 colnames(f) <- c("observation", "quan_resid")
 # try colors() for different colors
 #facet_wrap(~ cut_number(rent$A, 6))
-      gg <- ggplot(d, aes(x = obs, y = DIncr, label = txt, ymin = 0, ymax = DIncr)) + 
-            geom_linerange(colour = line.col ) + 
-            geom_point(shape = 1, colour = point.col  ) + 
-            xlab("Observation number") + # working  with facet_wrap 
-            ylab("deviance increment") + # working  with facet_wrap 
-            ggtitle(txt.title) +  # working  with facet_wrap 
-            geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
+      gg <- ggplot2::ggplot(d, 
+            ggplot2::aes(x = obs, y = DIncr, label = txt, ymin = 0, ymax = DIncr)) + 
+          ggplot2::geom_linerange(colour = line.col ) + 
+        ggplot2::geom_point(shape = 1, colour = point.col  ) + 
+        ggplot2::xlab("Observation number") + # working  with facet_wrap 
+        ggplot2::ylab("deviance increment") + # working  with facet_wrap 
+        ggplot2::ggtitle(txt.title) +  # working  with facet_wrap 
+        ggplot2::geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, 
+                  family = "serif",
             fontface = "italic", colour = "darkred", na.rm = TRUE)  # working  with facet_wrap 
 #   if (no.lines)  suppressWarnings(return(gg))
 #  facet_wrap(~ cut_number(rent$A, 6))
   p <- gg + 
-    if (annotate) annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = (2*value),
+    if (annotate) ggplot2::annotate("text", x = Inf, y = Inf, hjust = 1.5, 
+                                    vjust = (2*value),
              family = "serif", fontface = "italic", colour = annot.col,
              label = paste0("Threshold: abs(", sprintf("%.3f",value ), ")"))
   if (plot) {
@@ -125,12 +125,13 @@ if (is.null(newdata))
   v.names <- names(da)
      term <- as.character(against) 
       pos <- which(v.names==term)
-       gg <- ggplot(data=da, aes(x=da[,pos], y=diff, label=txt, ymin = 0, ymax = diff ))+
-             geom_linerange(colour = "steelblue4")+
-             geom_point(shape = 1, colour = "steelblue4")+
-             geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, 
+       gg <- ggplot2::ggplot(data=da, 
+             ggplot2::aes(x=da[,pos], y=diff, label=txt, ymin = 0, ymax = diff ))+
+         ggplot2::geom_linerange(colour = "steelblue4")+
+         ggplot2::geom_point(shape = 1, colour = "steelblue4")+
+         ggplot2::geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, 
               family = "serif", fontface = "italic", colour = "darkred", na.rm = TRUE)+
-              xlab(term)
+         ggplot2::xlab(term)
   gg
 }
 ##############################################################################

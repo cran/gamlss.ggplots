@@ -1,10 +1,16 @@
 # create 08-6-21
-#--------------------------------------------------------------
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 # TO DO
 # i)   function output 
 # ii)  check for existance of first two moments
 # iii) check binomal data 
-# -------------------------------------------------------------
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 pe_moment <- function   (obj = NULL, 
                         term = NULL, 
                       moment = c("mean", "variance", "sd"),
@@ -106,46 +112,58 @@ if (plot)
   if (moment=="mean")
   {
 yaxislabel <- paste0("PE_E(",term,")")
-    pp <-  ggplot(data=da, aes(x=x, y=mean))+
-      geom_point(color=col, size=factor.size, shape="-")+
-      ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+    pp <-  ggplot2::ggplot(data=da, ggplot2::aes(x=x, y=mean))+
+      ggplot2::geom_point(color=col, size=factor.size, shape="-")+
+      ggplot2::ylab(yaxislabel)+ 
+      ggplot2::xlab(term)+ 
+      ggplot2::ggtitle(txt.title)
   }
   if (moment=="variance")
   {
     yaxislabel <- paste0("PE_V(",term,")")    
-    pp <-  ggplot(data=da, aes(x=x, y=sd^2))+
-      geom_point(color=col, size=factor.size, shape="-")+
-      ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+    pp <-  ggplot2::ggplot(data=da, aes(x=x, y=sd^2))+
+      ggplot2::geom_point(color=col, size=factor.size, shape="-")+
+      ggplot2::ylab(yaxislabel)+ 
+      ggplot2::xlab(term)+ 
+      ggplot2::ggtitle(txt.title)
   } 
   if (moment=="sd")
   {
     yaxislabel <- paste0("PE_sd(",term,")")
-    pp <-  ggplot(data=da, aes(x=x, y=sd))+
-      geom_point(color=col, size=factor.size, shape="-")+
-      ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+    pp <-  ggplot2::ggplot(data=da, ggplot2::aes(x=x, y=sd))+
+      ggplot2::geom_point(color=col, size=factor.size, shape="-")+
+      ggplot2::ylab(yaxislabel)+ 
+      ggplot2::xlab(term)+ 
+      ggplot2::ggtitle(txt.title)
   } 
  } else 
  {
   if (moment=="mean")
   {
     yaxislabel <- paste0("PE_E(",term,")")
-    pp <- ggplot(data=da)+
-          geom_line( aes(x=x, y=mean), color=col, size=size)+
-          ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+    pp <- ggplot2::ggplot(data=da)+
+      ggplot2::geom_line( ggplot2::aes(x=x, y=mean), color=col, size=size)+
+      ggplot2::ylab(yaxislabel)+ 
+      ggplot2::xlab(term)+ 
+      ggplot2::ggtitle(txt.title)
   }
   if (moment=="variance")
   {
     yaxislabel <- paste0("PE_V(",term,")")    
-    pp <- ggplot(data=da)+
-           geom_line( aes(x=x, y=sd^2), color=col, size=size)+
-           ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+    pp <- ggplot2::ggplot(data=da)+
+      ggplot2::geom_line( ggplot2::aes(x=x, y=sd^2), color=col, size=size)+
+      ggplot2::ylab(yaxislabel)+ 
+      ggplot2::xlab(term)+ 
+      ggplot2::ggtitle(txt.title)
   } 
   if (moment=="sd")
   {
     yaxislabel <- paste0("PE_sd(",term,")")
-    pp <- ggplot(data=da)+
-      geom_line( aes(x=x, y=sd), color=col, size=size)+
-      ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
+    pp <- ggplot2::ggplot(data=da)+
+      ggplot2::geom_line( ggplot2::aes(x=x, y=sd), color=col, size=size)+
+      ggplot2::ylab(yaxislabel)+ 
+      ggplot2::xlab(term)+ 
+      ggplot2::ggtitle(txt.title)
   } 
 }          
   return(pp)
@@ -154,5 +172,8 @@ yaxislabel <- paste0("PE_E(",term,")")
   if ((it.is.factor)) stop("there is no function saved for factors")
   else invisible(list(mean=meanFun, variance=varianceFun))
 }  
-    
 }
+################################################################################
+################################################################################
+################################################################################
+################################################################################

@@ -1,9 +1,12 @@
-#########################################################################
-#########################################################################
-#########################################################################
-#########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #  function equivalent to GAIC.scaled 
-######################################################################### 
+################################################################################
+################################################################################
+################################################################################
+################################################################################ 
 model_GAIC<- function(object,..., 
                         k = 2,      # which GAIC
                         c = FALSE,  # whether corrected GAIC
@@ -44,14 +47,14 @@ if  (plot) # if we need to plot
   val$models <- rownames(val)
    gg <- switch(scale,
                 "[0,1]"={
-                  ggplot(val, aes(models, scaled))+
-                    geom_bar(stat="identity", width=width, colour=col)+
-                    ggtitle(txt.title)},
+                  ggplot2::ggplot(val, ggplot2::aes(models, scaled))+
+                    ggplot2::geom_bar(stat="identity", width=width, colour=col)+
+                    ggplot2::ggtitle(txt.title)},
                 "[max,min]"={ 
-                  ggplot(val, aes(models, delta))+
-                    geom_bar(stat="identity", width=width, colour=col)+
-                    ggtitle(txt.title)})
-  if (horiz) gg <- gg +coord_flip()         
+                  ggplot2::ggplot(val, ggplot2::aes(models, delta))+
+                    ggplot2::geom_bar(stat="identity", width=width, colour=col)+
+                    ggplot2::ggtitle(txt.title)})
+  if (horiz) gg <- gg + ggplot2::coord_flip()         
   return(gg)
 } else
   val <- val[,]
@@ -74,7 +77,7 @@ if (length(list(...))) # if a list of model
          val <- as.data.frame(cbind(df,AIC, delta=round(dAIC,3), scaled=round(oAIC,4)))
         Call <- match.call()## trying to get the names
       Call$k <- Call$c <- Call$plot <- Call$text.cex <- Call$which <- Call$diff.dev <- Call$horiz <- Call$scale <- NULL 
-row.names(val) <- if (is.null(text.to.show)) as.character(Call[-1])
+row.names(val) <- if (is.null(text.to.show)) as.character(Call[-1][1:length(object)])
                  else text.to.show
 #-----------------------------------------------
   if  (plot) # if we need to plot
@@ -82,13 +85,13 @@ row.names(val) <- if (is.null(text.to.show)) as.character(Call[-1])
     val$models <- rownames(val)
            gg <- switch( scale,
                        "[0,1]"={
-                            ggplot(val, aes(models, scaled))+
-                            geom_bar(stat="identity", width=width, colour=col)+
-                            ggtitle(paste("GAIC's in",scale, "scale"))},
+                         ggplot2::ggplot(val, ggplot2::aes(models, scaled))+
+                           ggplot2::geom_bar(stat="identity", width=width, colour=col)+
+                           ggplot2::ggtitle(paste("GAIC's in",scale, "scale"))},
                      "[max,min]"={ 
-                             ggplot(val, aes(models, delta))+
-                             geom_bar(stat="identity", width=width, colour=col)+
-                           ggtitle(paste("GAIC's ordered from",scale))})
+                       ggplot2::ggplot(val, ggplot2::aes(models, delta))+
+                         ggplot2::geom_bar(stat="identity", width=width, colour=col)+
+                         ggplot2::ggtitle(paste("GAIC's ordered from",scale))})
     if (horiz) gg <- gg +coord_flip()         
           return(gg)
       } else
@@ -104,7 +107,7 @@ else # if only one model just print
   }
 }
 # end of model_GAIC
-#########################################################################
-#########################################################################
-#########################################################################
-#########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

@@ -1,5 +1,7 @@
-# function 4
-##########################################################################33 
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 model_wp_wrap <- function(obj,..., 
                        xvar = NULL,
                       value = 3,
@@ -10,7 +12,7 @@ model_wp_wrap <- function(obj,...,
                           ylim,
                          title)
 {
-###########################################################################
+################################################################################
 # local function
 gamlss_prep_data <- function (obj, value=3, i, ...) 
   {
@@ -44,7 +46,7 @@ gamlss_prep_data <- function (obj, value=3, i, ...)
     }
     return(out)    
 }  
-############################################################################
+################################################################################
 getSE <- function(xlim, level=0.95, N=NULL)
 {
     lz <- -xlim
@@ -57,8 +59,8 @@ getSE <- function(xlim, level=0.95, N=NULL)
   high <- -low
   data.frame(high=high, low=low, z=z)
 }
-############################################################################
-############################################################################
+################################################################################
+################################################################################
 x <- rqres  <- model <-  low <- high <- z <- NULL   
    names <- as.character(match.call()[-1])[1:(length(list(...))+1)]
 if (!missing(obj)&&!is.gamlss(obj)) stop("the model is not a gamlss model")
@@ -80,19 +82,22 @@ for (i in levels(z))# get the right subset
 txt.title <- if (missing(title))  "worm-plots of residuals from different models" 
       else title   
 ymax <- if (missing(ylim))  (max(abs(DA1$rqres))+0.1) else ylim
-gg <- ggplot(data=DA1, aes(x = x, y = rqres,  color=model)) + 
-      geom_point(  alpha=.8 ) + # shape = 1, must include argument label "data"
-      geom_ribbon(data=DA2, aes(ymin = low, ymax = high, x = z), alpha = alpha_bound)+
-      geom_line(data = DA2, aes(x = z, y = low), lty=2)+
-      geom_line(data = DA2, aes(x = z, y = high), lty=2)+
-      xlab("Unit normal quantile") + 
-      facet_wrap(~Z)+ 
-      ylab("Deviation") +
-      coord_cartesian(ylim = c(-ymax, ymax)) +
-      geom_hline(yintercept = 0, colour = "gray")+
-      geom_vline(xintercept = 0, colour = "gray")+
-      ggtitle(txt.title)
+gg <- ggplot2::ggplot(data=DA1, ggplot2::aes(x = x, y = rqres,  color=model)) + 
+  ggplot2::geom_point(  alpha=.8 ) + # shape = 1, must include argument label "data"
+  ggplot2::geom_ribbon(data=DA2, aes(ymin = low, ymax = high, x = z), 
+                       alpha = alpha_bound)+
+  ggplot2::geom_line(data = DA2, aes(x = z, y = low), lty=2)+
+  ggplot2::geom_line(data = DA2, aes(x = z, y = high), lty=2)+
+  ggplot2::xlab("Unit normal quantile") + 
+  ggplot2::facet_wrap(~Z)+ 
+  ggplot2::ylab("Deviation") +
+  ggplot2::coord_cartesian(ylim = c(-ymax, ymax)) +
+  ggplot2::geom_hline(yintercept = 0, colour = "gray")+
+  ggplot2::geom_vline(xintercept = 0, colour = "gray")+
+  ggplot2::ggtitle(txt.title)
 suppressWarnings(return(gg))
 }
-######################################################################## 
-######################################################################## 
+################################################################################
+################################################################################
+################################################################################
+################################################################################ 

@@ -1,6 +1,7 @@
-############################################################################
-############################################################################
-############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 nl_cor1 <- function(x,y, plot=TRUE, robust=FALSE)
 {
   if (robust)
@@ -23,10 +24,11 @@ nl_cor1 <- function(x,y, plot=TRUE, robust=FALSE)
   }
   list(cor=max(r1,r2), d1=r1, d2=r2 )
 }
-############################################################################
-############################################################################
-############################################################################
-df_nlcor1 <- function(data,   
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+data_nlcor1 <- function(data,   
                      digits = 3,
                        plot = TRUE,
                    diag.off = FALSE,
@@ -36,7 +38,7 @@ df_nlcor1 <- function(data,
                      colors = c("blue", "white", "red"),
                legend.title = "Corr",
                      title,
-                    ggtheme = theme_minimal(),
+                    ggtheme = ggplot2::theme_minimal(),
                      tl.cex = 12,
                      tl.col = "black", 
                      tl.srt = 45,
@@ -89,48 +91,51 @@ if (plot==FALSE) return(CC)
       paste("Non-linear correlations from data:",deparse(substitute(data)))
     else title  
     corr$abs_corr <- abs(corr$value) * 10
-    p <- ggplot(data = corr, 
-                mapping = aes_string(x = "var_1", y = "var_2", fill = "value"))
+    p <- ggplot2::ggplot(data = corr, 
+                mapping = ggplot2::aes_string(x = "var_1", y = "var_2", fill = "value"))
     if (method == "square") {
-      p <- p + geom_tile(color = outline.color)
+      p <- p + ggplot2::geom_tile(color = outline.color)
     }
     else if (method == "circle") {
-      p <- p + geom_point(color = outline.color, shape = 21, 
-                          aes_string(size = "abs_corr")) +
+      p <- p + ggplot2::geom_point(color = outline.color, shape = 21, 
+                                   ggplot2::aes_string(size = "abs_corr")) +
         scale_size(range = c(4, 10)) +
         guides(size = "none")
     }
     label <- round(x = CC, digits = digits)               
-    p <- p + scale_fill_gradient2(low = colors[1], high = colors[3], 
+    p <- p + ggplot2::scale_fill_gradient2(low = colors[1], high = colors[3], 
                            mid = colors[2],  midpoint = 0.5, limit = c(0, 1), 
                            space = "Lab",
-                          name = legend.title)+ggtitle(txt.title)
+                          name = legend.title)+
+      ggplot2::ggtitle(txt.title)
     if (class(ggtheme)[[1]] == "function") {
-      p <- p + ggtheme()
+      p <- p + ggtheme
     }
     else if (class(ggtheme)[[1]] == "theme") {
       p <- p + ggtheme
     }
-    p <- p + theme(axis.text.x = element_text(angle = tl.srt, 
+    p <- p + ggplot2::theme(axis.text.x = element_text(angle = tl.srt, 
                          vjust = 1, size = tl.cex, hjust = 1), 
-                   axis.text.y = element_text(size = tl.cex)) + 
-      coord_fixed()
+                   axis.text.y = ggplot2::element_text(size = tl.cex)) + 
+      ggplot2::coord_fixed()
     label <- round(x = corr[, "value"], digits = digits)  
     if (lab) {
       p <- p + ggplot2::geom_text(
-                   mapping = aes_string(x = "var_1", y = "var_2"), 
+                   mapping = ggplot2::aes_string(x = "var_1", y = "var_2"), 
                    label = label, color = lab_col, size = lab_size)
     }
     p
     
 }
-##############################################################################
-##############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 nl_cor <- function(x,y, plot=FALSE)
 {
     df <- data.frame(x,y)
-    m1 <- fitPB(x,y, data=df, plot=FALSE)
-    m2 <- fitPB(y,x, data=df, plot=FALSE)
+    m1 <- fit_PB(x,y, data=df, plot=FALSE)
+    m2 <- fit_PB(y,x, data=df, plot=FALSE)
     r1 <- cor(fitted(m1), y)
     r2 <- cor(fitted(m2), x)
   if (plot) { 
@@ -144,10 +149,11 @@ nl_cor <- function(x,y, plot=FALSE)
   attr(cor, "r2") <- r2 
   return(cor)
 }
-#############################################################################
-#############################################################################
-#############################################################################
-df_nlcor <- function(data,   
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+data_nlcor <- function(data,   
                     digits = 3,
                       plot = TRUE,
                   diag.off = TRUE,
@@ -165,6 +171,8 @@ df_nlcor <- function(data,
                    lab_col = "black", 
                   lab_size = 3) 
 {
+################################################################################
+################################################################################
   meltit <- function(mat)
   {
     rna <- rownames(mat)
@@ -174,7 +182,9 @@ df_nlcor <- function(data,
     Var2 <- gl(length(rna), lrna, length = lrna*lrna, labels=rna)
     daf <-  na.omit(data.frame(Var1, Var2, value=value)) 
     daf
-  }  
+  }
+################################################################################
+################################################################################  
   if (missing(data) || NROW(data) <= 1) 
     stop("nothing to do for this model")
       dimD <- dim(data)
@@ -209,45 +219,46 @@ colnames(corr) <- c("var_1", "var_2", "value")
     paste("Non-linear correlations from data:",deparse(substitute(data)))
     else title  
 corr$abs_corr <- abs(corr$value) * 10
-      p <- ggplot(data = corr, 
-                 mapping = aes_string(x = "var_1", y = "var_2", fill = "value"))
+      p <- ggplot2::ggplot(data = corr, 
+                 mapping = ggplot2::aes_string(x = "var_1", y = "var_2",
+                                               fill = "value"))
 if (method == "square") 
   {
-      p <- p + geom_tile(color = outline.color)
+      p <- p + ggplot2::geom_tile(color = outline.color)
   }
   else if (method == "circle") {
-      p <- p + geom_point(color = outline.color, shape = 21, 
-                        aes_string(size = "abs_corr")) +
-                        scale_size(range = c(4, 10)) +
-                        guides(size = "none")
+      p <- p + ggplot2::geom_point(color = outline.color, shape = 21, 
+                        ggplot2::aes_string(size = "abs_corr")) +
+                        ggplot2::scale_size(range = c(4, 10)) +
+                        ggplot2::guides(size = "none")
   }
   label <- round(x = CC, digits = digits)               
-      p <- p + scale_fill_gradient2(low = colors[1], high = colors[3], 
+      p <- p + ggplot2::scale_fill_gradient2(low = colors[1], high = colors[3], 
                                 mid = colors[2],  midpoint = 0.5, limit = c(0, 1), 
                                 space = "Lab",
                                 name = legend.title)+ggtitle(txt.title)
-if (class(ggtheme)[[1]] == "function") {
-      p <- p + ggtheme()
+if (class(ggtheme)[[1]] == "function") {3
+      p <- p + ggtheme
   }
   else if (class(ggtheme)[[1]] == "theme") {
       p <- p + ggtheme
   }
-      p <- p + theme(axis.text.x = element_text(angle = tl.srt, 
+      p <- p + ggplot2::theme(axis.text.x = element_text(angle = tl.srt, 
                                             vjust = 1, size = tl.cex, hjust = 1), 
                  axis.text.y = element_text(size = tl.cex)) + 
                   coord_fixed()
   label <- round(x = corr[, "value"], digits = digits)  
 if (lab) {
     p <- p + ggplot2::geom_text(
-      mapping = aes_string(x = "var_1", y = "var_2"), 
+      mapping = ggplot2::aes_string(x = "var_1", y = "var_2"), 
       label = label, color = lab_col, size = lab_size)
   }
   p
 }
-##############################################################################
-##############################################################################
-##############################################################################
-##############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 
 
 

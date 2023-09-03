@@ -1,4 +1,6 @@
 # create 08-6-21
+# amended 14-10-2022 Mikis 
+# the discrete case did not work 
 #--------------------------------------------------------------
 # TO DO
 # i)   what action we should have with factors? fixed
@@ -92,8 +94,8 @@ if (is.null(ma))
           else tail(DaTa[, i], 1)
           }
 }
-if (is.factor(DaTa[, i])) dat.temp[, i] <- pp<- c(DaTa[,i],factor(rep(ma, x.grid.points)))
-                    else  dat.temp[, i] <-c(DaTa[, i], rep(ma, x.grid.points))
+if (is.factor(DaTa[, i])) dat.temp[, i] <- c(DaTa[,i],factor(rep(ma, x.grid.points)))
+                    else  dat.temp[, i] <- c(DaTa[, i], rep(ma, x.grid.points))
       }
   }
 # family -------------------------------------------------
@@ -126,12 +128,11 @@ if (is.factor(DaTa[, i])) dat.temp[, i] <- pp<- c(DaTa[,i],factor(rep(ma, x.grid
    {
      if (is.null(from)) from <- min(obj$y)
      if (is.null(to)) to <- max(obj$y)
-     yvar <- seq(from =  from, to=to, 1 )  
+     yvar <- seq(from =  from, to = to, 1 )  
    } else
    {
      if (is.null(from)) from <- min(obj$y)
      if (is.null(to)) to <- max(obj$y)
-     #browser()
      yvar <- seq(from = from, to=to, length.out=y.grid.points )   
    }   
     # yvar <- seq(from = min(obj$y), to=max(obj$y), length.out=y.grid.points )      
@@ -163,7 +164,7 @@ xaxislabel <- resp
 } else title
    height <- unlist(qq)
         x <- rep(yvar,lqq)
-        y <- if (TypeDist == "Discrete") as.vector(t(replicate(max(yvar) + 1, xvar)))
+        y <- if (TypeDist == "Discrete") as.vector(t(replicate(max(yvar) - 1, xvar)))
              else as.vector(t(replicate(y.grid.points, xvar)))
  if (horizontal)
   {

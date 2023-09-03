@@ -1,34 +1,43 @@
 # create 08-6-21
-#--------------------------------------------------------------
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 # TO DO
 # i)   what action we should have with factors?
-# ii)  what happents if linear terms? the first derivative look funny
+# ii)  what happens if linear terms? the first derivative look funny
 # iii) check for different values of the other variables what happening  
 # iv)  binomial or count data? check
 # v)   different colour scheme?
-# -------------------------------------------------------------
-pe_quantile <- function (obj = NULL, 
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+pe_1_QCV <- function (model = NULL, 
                         term = NULL, 
-                    quantile = c(0.05, 0.5, 0.95),
+                    quantile = c(0.75, 0.50, 0.25),
                         data = NULL, 
                     n.points = 100, 
                          how = c("median", "last", "fixed"), 
                     scenario = list(), 
                          col = "darkblue",
-                        size = 1.3,
+                   linewidth = 1.3,
                       legend = TRUE,
-                    title) 
+                        ylim = NULL,
+                        ylab = NULL,
+                        xlab = NULL,
+                    title, ...) 
 {
-if (is.null(obj) || !class(obj)[1] == "gamlss") stop("Supply a standard GAMLSS model in obj")
+if (is.null(model) || !class(model)[1] == "gamlss") stop("Supply a standard GAMLSS model in model")
        how <- match.arg(how)
  quantiles <- x <-  y <- NULL
-if (any(grepl("data", names(obj$call)))) {
-      DaTa <- if (startsWith(as.character(obj$call["data"]), "na.omit")) 
-                   eval(parse(text = as.character(obj$call["data"])))
-              else get(as.character(obj$call["data"]))
+if (any(grepl("data", names(model$call)))) {
+      DaTa <- if (startsWith(as.character(model$call["data"]), "na.omit")) 
+                   eval(parse(text = as.character(model$call["data"])))
+              else get(as.character(model$call["data"]))
   }
 else if (is.null(data)) 
-    stop("The data argument is needed in obj")
+    stop("The data argument is needed in model")
    v.names <- names(DaTa)
        pos <- which(v.names==term)
 if (pos<1) stop("supply a  term")
@@ -45,9 +54,7 @@ it.is.factor <- FALSE
          mat <- matrix(0, nrow = dim(DaTa)[1] + n.points, ncol = dim(DaTa)[2])
     dat.temp <- as.data.frame(mat)
 names(dat.temp) <- v.names
-#  xvar <- seq(from = min(DaTa[, pos]), to = max(DaTa[, pos]), 
-#              length.out = n.points)
-  for (i in 1:dim(dat.temp)[2]) {
+for (i in 1:dim(dat.temp)[2]) {
     if (pos == i) 
       {
       dat.temp[, i] <- c(DaTa[, i], xvar)
@@ -73,12 +80,12 @@ names(dat.temp) <- v.names
       dat.temp[, i] <- c(DaTa[, i], rep(ma, n.points))
     }
   } # end going thought the variables
-      pdf <- obj$family[1]
+      pdf <- model$family[1]
     binom <- pdf%in%gamlss::.gamlss.bi.list # whether binomial
-     qfun <- paste("q", obj$family[[1]],sep="")
+     qfun <- paste("q", model$family[[1]],sep="")
      lpar <- eval(parse(text=pdf))()$nopar
-  if (binom) {bd <- obj$bd ; Y <- obj$y}
-       pp <-  predictAll(obj, newdata = tail(dat.temp, n.points), output="matrix")
+  if (binom) {bd <- model$bd ; Y <- model$y}
+       pp <-  predictAll(model, newdata = tail(dat.temp, n.points), output="matrix")
        qq <- list()
       lqq <- length(quantile) 
 if (lqq==1)
@@ -98,44 +105,43 @@ if (lqq==1)
                 eval(call(qfun, p= quantile[i], mu=pp[,"mu"], sigma=pp[,"sigma"],  nu=pp[,"nu"])),  # 3                   
                 eval(call(qfun, p= quantile[i], mu=pp[,"mu"], sigma=pp[,"sigma"],  nu=pp[,"nu"], tau=pp[,"tau"])))
   }
-   }  
+ }  
     yaxislabel <- paste0("PE_quan(", term, ")")
-if (lqq==1)
-{
   txt.title <- if (missing(title))  
-                  paste("Partial effect of",term, "quantile", quantile, "for model",deparse(substitute(obj)))
-               else title
-  da <- data.frame(y=qq[[1]], x=xvar)
-  pp <- ggplot(data=da)+
-    geom_line( aes(x=x, y=y), color=col, size=size)+
-    ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
-  
-  return(pp)
-} else
-{
-  txt.title <- if (missing(title))  
-    paste("Partial effect quantiles", term, "for model", deparse(substitute(obj)))
+    paste("Partial effect QCV", term, "for model", deparse(substitute(model)))
   else title  
- #da1= subset(da, da$quantiles==.5)
-#  ggplot(data=da1)+geom_line(aes(x=x,y=y))
-  da <- data.frame(y=unlist(qq), x=rep(xvar,lqq), quantiles=gl(lqq,length(qq[[1]]), labels = quantile)) 
-        #ggplot(DataM, aes(x=x, y=c, col=centiles))
-
+  RCVQ <- 0.75*((qq[[1]]-qq[[3]])/qq[[2]])
+    da <- data.frame(y=RCVQ, x=xvar)
 if (it.is.factor)
 {
-  pp <-  ggplot(data=da, aes(x=x, y=y, group=factor(quantiles), colour=quantiles))+
-    geom_line(size=size)+
-    geom_point( size=size+2)+
-    ylab(yaxislabel) + xlab(term)+ ggtitle(txt.title)
-  if (legend=="FALSE") pp <- pp+ theme(legend.position = "none")
+  pp <-  ggplot2::ggplot(data=da, ggplot2::aes(x=x, y = y, colour=x))+
+    ggplot2::geom_point( size=linewidth+2)+
+    ggplot2::ylab(yaxislabel) + xlab(term)+ 
+    ggplot2::ggtitle(txt.title)
+if (!is.null(ylim)) pp <- pp + ggplot2::ylim(ylim)   
+if (!is.null(ylab)) pp <- pp + ggplot2::ylab(ylab) 
+if (!is.null(xlab)) pp <- pp + ggplot2::xlab(xlab) 
+if (legend=="FALSE") pp <- pp+ ggplot2::theme(legend.position = "none")
 } else 
 {
-  pp <- ggplot(data=da, aes(x=x, y=y, col=quantiles))+
-    geom_line(size=size)+
-    ylab(yaxislabel)+ xlab(term)+ ggtitle(txt.title)
-  if (legend=="FALSE") pp <- pp+ theme(legend.position = "none")
+  pp <- ggplot2::ggplot(data=da, ggplot2::aes(x=x, y=y))+
+    ggplot2::geom_line(linewidth=linewidth)+
+    ggplot2::ylab(yaxislabel)+
+    ggplot2::xlab(term)+ 
+    ggplot2::ggtitle(txt.title)
+if (!is.null(ylim)) pp <- pp + ggplot2::ylim(ylim)
+if (!is.null(ylab)) pp <- pp + ggplot2::ylab(ylab) 
+if (!is.null(xlab)) pp <- pp + ggplot2::xlab(xlab) 
+
+
+if (legend=="FALSE") pp <- pp + 
+      theme(legend.position = "none")
 }          
   return(pp)
 }
-    
-}
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+# git remote set-url origin https://github.com/mstasinopoulos/gamlss.ggplots.git
+# git remote -v

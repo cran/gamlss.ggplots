@@ -1,14 +1,16 @@
-################################################################
-################################################################
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 #   fitted_cdf()  
 #   Mikis Stasinopoulos Bob Rigby Fernanda de Bastiani
 #   23 February, 2021 
 #   TO DO : I have not checked binomial
 #           what about legend? 
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 predict_cdf <- function (model,
                       newdata,
                         title,
@@ -41,8 +43,8 @@ if (!is.gamlss(model)) stop("the model should be an gamlss object")
   if (missing(newdata)) stop("the argument newdata is required")
 ## the number of plots  
 ## whether binomial type
-######################################################################
-######################################################################          
+################################################################################
+################################################################################        
 if (fname%in%gamlss.bi.list)  
 {
          MM <- predictAll(model, newdata = newdata, output = "matrix")
@@ -71,11 +73,11 @@ switch(nopar,
     da[[i]] <- data.frame(y.var[[i]],  cdfArr[[i]])
 }
      da0 <- data.frame(y.var=from:to)
-     p11 <- ggplot(data=da0) 
+     p11 <- ggplot2::ggplot(data=da0) 
 if (lobs==1) 
     {
          p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-           geom_segment(data=da[[1]], mapping = aes(x=y.var..i.., y=cdfArr..i.., 
+           ggplot2::geom_segment(data=da[[1]], ggplot2::aes(x=y.var..i.., y=cdfArr..i.., 
                                       xend = y.var..i.., yend = 0), 
                         color=col.fill[1],  size=size.seqment)
     }
@@ -84,25 +86,25 @@ if (lobs==1)
 for (i in 1:lobs)
          {
            p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-             geom_segment(data=da[[i]], 
+             ggplot2::geom_segment(data=da[[i]], 
               mapping =  aes(x=y.var..i.., y=cdfArr..i.., 
               xend = y.var..i.., yend = 0), 
               color=col.fill[i], alpha=alpha, size=size.seqment)
-  if (plot.point) p11 <- p11+geom_point(data=da[[i]],
-              aes(x = y.var..i.., y = cdfArr..i..), size = size.point, 
+  if (plot.point) p11 <- p11 + ggplot2::geom_point(data=da[[i]],
+            ggplot2::aes(x = y.var..i.., y = cdfArr..i..), size = size.point, 
               color = col.fill[i])
-  if (plot.line)  p11 <- p11 + geom_line(data=da[[i]],
-                          aes(x = y.var..i.., y=cdfArr..i..),  
+  if (plot.line)  p11 <- p11 + ggplot2::geom_line(data=da[[i]],
+                    ggplot2::aes(x = y.var..i.., y=cdfArr..i..),  
                           size = size.line.disc, color = col.fill[i])
          } 
     }
-     p11 = p11 + labs(x = "y", y =  paste0(fname,"(y)"))+
-       xlim(from,to)+
-       ggtitle( txt.title)     
+     p11 = p11 + ggplot2::labs(x = "y", y =  paste0(fname,"(y)"))+
+       ggplot2::xlim(from,to)+
+       ggplot2::ggtitle( txt.title)     
 return(p11)     
 } # end binomial
-#######################################################################      
-#######################################################################
+################################################################################
+################################################################################      
         MM <- predictAll(model, newdata=newdata, output="matrix")
       lobs <- dim(newdata)[1]
   if (lobs==1) MM <- matrix(MM, nrow=1, ncol=nopar+1 ) 
@@ -131,7 +133,7 @@ for (j in 1:lobs)
            cdfArr[,j] <- cdf(y.var,  mu=MM[j,"mu"], sigma=MM[j,"sigma"], nu=MM[j,"nu"], tau=MM[j,"tau"], lower.tail = lower.tail) 
          })  
 }  # end of look over observations
-################################################################ 
+################################################################################ 
      da <- data.frame(y.var,  cdfArr)
     p11 <- ggplot(data=da) 
 if (type=="Discrete")
@@ -139,8 +141,8 @@ if (type=="Discrete")
   if (lobs==1) 
   {
     p11 <- p11 +  #geom_hline( aes(yintercept = 0)) +
-      geom_step(direction = "hv", 
-                aes_string(x="y.var", y=cdfArr),  
+      ggplot2::geom_step(direction = "hv", 
+            ggplot2::aes_string(x="y.var", y=cdfArr),  
                 size= size.line.disc, color=col.fill[1])
   }
   else   
@@ -148,8 +150,8 @@ if (type=="Discrete")
     for (i in 1:lobs)
     {
       p11 <- p11 + # geom_hline( aes(yintercept = 0)) +
-        geom_step(direction = "hv", 
-                  aes_string(x = "y.var", y = paste0("X",i)),  
+        ggplot2::geom_step(direction = "hv", 
+        ggplot2::aes_string(x = "y.var", y = paste0("X",i)),  
                   size = size.line, color = col.fill[i])
       #if (plot.point) p11 <- p11+geom_point( aes_string(x="y.var", y=paste0("X",i)),  
       #                                       size= size.point, color=col.fill[i])
@@ -159,17 +161,25 @@ if (type=="Discrete")
   }
 } else # continuous 
 {# one plot 
-  if (lobs==1) p11 = p11 +geom_line(color=col.fill[1], alpha=alpha, size=size.line, aes(x=y.var, y=cdfArr))
+  if (lobs==1) p11 = p11 + ggplot2::geom_line(color=col.fill[1], alpha=alpha, 
+                          size=size.line, aes(x=y.var, y=cdfArr))
   else
   {# more than one plot
     for (i in 1:lobs)
     {
-  p11 <-p11 + geom_line(color=col.fill[i], alpha=alpha, size=size.line,  aes_string(x="y.var", y=paste0("X",i)))
+  p11 <-p11 + ggplot2::geom_line(color=col.fill[i], alpha=alpha, 
+              size=size.line,  aes_string(x="y.var", y=paste0("X",i)))
     } 
   }
 }  
-  p11 = p11 + labs(x = "y", y =  paste0(fname,"(y)"))+
-              xlim(from,to)+
-              ggtitle( txt.title)
+  p11 = p11 + ggplot2::labs(x = "y", y =  paste0(fname,"(y)"))+
+    ggplot2::xlim(from,to)+
+    ggplot2::ggtitle( txt.title)
 p11
 }
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+
+

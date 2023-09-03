@@ -1,12 +1,12 @@
-##############################################################################
-##############################################################################
-##############################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 # plotting different residuals using their first two principal componets
 # TO DO : check how to plot differnt componemts
 model_pca <- function(obj,..., scale = TRUE, arrow_size = 1.5)
 {# what happend for different PC
-  ##############################################################################
-  ##############################################################################
+################################################################################
   # local function
   gamlss_prep_data <- function (obj, ... ) 
   {
@@ -49,22 +49,24 @@ model_pca <- function(obj,..., scale = TRUE, arrow_size = 1.5)
   arrows2 <- arrows
   arrows2$PC1 <- arrows2$PC2 <- 0
   arrows2 <- rbind(arrows, arrows2)
-  gg <- ggplot(data = data.frame(pca_object$x), aes(x = PC1, y = PC2)) + 
-    geom_point(colour = "grey", alpha = 0.75) + 
-    geom_hline(aes(yintercept = 0), size = 0.25) + 
-    geom_vline(aes(xintercept = 0), size = 0.25) + 
-    geom_line(data = arrows2, aes(PC1, PC2, colour = label)) + 
-    geom_segment(data = arrows, 
-                 aes(x = 0, y = 0, xend = PC1, yend = PC2, colour = label), 
+  gg <- ggplot2::ggplot(data = data.frame(pca_object$x), 
+                        ggplot2::aes(x = PC1, y = PC2)) + 
+    ggplot2::geom_point(colour = "grey", alpha = 0.75) + 
+    ggplot2::geom_hline(aes(yintercept = 0), size = 0.25) + 
+    ggplot2::geom_vline(aes(xintercept = 0), size = 0.25) + 
+    ggplot2::geom_line(data = arrows2, aes(PC1, PC2, colour = label)) + 
+    ggplot2::geom_segment(data = arrows, 
+             ggplot2::aes(x = 0, y = 0, xend = PC1, yend = PC2, colour = label), 
                  size = arrow_size, 
                  arrow = grid::arrow(length = grid::unit(2, "points")), 
                  show.legend = FALSE) +
-    ggtitle("Residuals PCA") #+ 
+    ggplot2::ggtitle("Residuals PCA") #+ 
   # scale_color_manual(values = rev(colours), breaks = arrows$label, 
   # 
   #                    guide = guide_legend(nrow = 1)) + theme_drwhy()
 return(gg)
 }
-#########################################################################
-#########################################################################
-#########################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

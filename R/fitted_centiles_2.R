@@ -4,10 +4,10 @@
 # fitted_centile_1()
 # which use sort data 
 # centiles x y 
-###############################################################
-###############################################################
-###############################################################
-###############################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 fitted_centiles <-function (obj, 
                      xvar, 
                      cent = c(99.4, 98, 90, 75, 50, 25, 10, 2, 0.4),
@@ -16,6 +16,7 @@ fitted_centiles <-function (obj,
                point.size = 1,
                 line.size = .8, 
                  line.col = hcl.colors(lc, palette="Dark 2"),
+                line.type = rep(1, length(cent)),
                      xlab = NULL,
                      ylab = NULL,
                     title, ...)        
@@ -101,19 +102,19 @@ if (points)
 for (i in 1:lc)
     {
   #fcol <-rep(line.col[i], N)
-      ggc <- ggc + geom_line(aes_string(x="x", y=Cnames[i]),
-                             color=line.col[i], size=line.size)
+      ggc <- ggc + geom_line(aes_string(x="x", y=Cnames[i]), linetype=line.type[i],
+                             color=line.col[i], linewidth=line.size)
 } 
   xvarCh <-   if (is.null(xlab)) xvarCh else xlab  
   yvarCh <-   if (is.null(ylab)) yvarCh else ylab  
   ggc <- ggc+ ggtitle( txt.title)+ylab(yvarCh)+xlab(xvarCh)
   ggc
 }
-
-################################################################
-################################################################
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
 fitted_centiles_legend <-function (obj, 
                               xvar, 
                               cent = c(99.4, 98, 90, 75, 50, 25, 10, 2, 0.4),
@@ -122,6 +123,7 @@ fitted_centiles_legend <-function (obj,
                         point.size = 1,
                          line.size = .8, 
                           line.col = hcl.colors(ncent, palette="Dark 2"),
+                         line.type = rep(1, length(cent)),
                        show.legend = TRUE,
                          save.data = FALSE,
                              title,
@@ -210,27 +212,31 @@ yvarCh <- paste(obj$call$formula[[2]])
                       y = rep(oyvar, lc),
                centiles = gl(length(cent), N, labels = as.character(cent)),
                   color = gl(length(cent), N, labels = line.col)
+              # typeline = factor(rep(line.type, each = length(oxvar))) 
                         )
   if (save.data) return(DataM)  
-  gg <- ggplot(DataM, aes(x=x, y=c, col=centiles, group=centiles))
+  gg <- ggplot2::ggplot(DataM, ggplot2::aes(x=x, y=c, col=centiles, group=centiles)) 
+  #linetype = typeline
   if (points) 
   {
     gg <-  gg +
-          geom_point(aes(x=x, y=y), colour=point.col, size=point.size)+
-          geom_line(size=line.size, show.legend = show.legend)+#, color=DataM$color
+      ggplot2::geom_point(ggplot2::aes(x=x, y=y), colour=point.col, size=point.size)+
+      ggplot2::geom_line(linewidth=line.size,  
+                    show.legend = show.legend)+#, color=DataM$color
           ggtitle( txt.title)
    } else
   {
     gg <- gg +
-          geom_line(size=line.size, show.legend = show.legend)+
-          ggtitle( txt.title)
+      ggplot2::geom_line(linewidth=line.size, linetype=line.type,
+                    show.legend = show.legend)+
+      ggplot2::ggtitle( txt.title)
   }
   xvarCh <-   if (is.null(xlab)) xvarCh else xlab  
   yvarCh <-   if (is.null(ylab)) yvarCh else ylab  
-  gg <- gg+ ylab(yvarCh)+xlab(xvarCh)
+  gg <- gg+ ggplot2::ylab(yvarCh)+ggplot2::xlab(xvarCh)
   gg
 }
-################################################################
-################################################################
-################################################################
-################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################

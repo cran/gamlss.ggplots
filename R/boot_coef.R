@@ -4,8 +4,8 @@ require(grid)
 # for only one plot 
 boot_coef_one <- function(x, 
                         par = 1, 
-                        add = FALSE, 
                         rug = TRUE, 
+                      alpha = 0.2,
                    hist.col = "black", 
                   hist.fill = "white", 
                    line.col = "gray",
@@ -13,16 +13,17 @@ boot_coef_one <- function(x,
 {
   #  if (add) {lines(density(x$boot[,par]), ... )}
   #  else {
-  da <- data.frame(x=x$boot[,par])
-  name <- colnames(x$boot)[par]
-  txt.title <- if (missing(title))  name
-  else title  
-  gg <- ggplot(da, aes(x =x)) + 
-    geom_density(alpha = 0.2, fill = dens.fill) + xlab(name) + 
-    ylab("density") + ggtitle(txt.title)+
-    geom_vline( xintercept=x$orig.coef[par])+
-    geom_vline( xintercept=quantile(x$boot[,par], c(0.025, .5, .975)), color=line.col)
-  if (rug)  gg=gg+geom_rug()
+       da <- data.frame(x=x$boot[,par])
+     name <- colnames(x$boot)[par]
+txt.title <- if (missing(title))  name
+             else title  
+      gg <- ggplot2::ggplot(da, ggplot2::aes(x =x)) + 
+        ggplot2::geom_density(alpha = alpha, fill = dens.fill) + xlab(name) + 
+        ggplot2::ylab("density") + ggtitle(txt.title)+
+        ggplot2::geom_vline( xintercept=x$orig.coef[par])+
+        ggplot2::geom_vline( xintercept=quantile(x$boot[,par], 
+                    c(0.025, .5, .975)), color=line.col)
+  if (rug)  gg=gg+ggplot2::geom_rug()
   return(gg)
   #  }
 }  
@@ -47,7 +48,7 @@ boot_coef <- function(x,
     stop("the function needs NonParametric.Boot or Bayesian.Boot objects")
   which.terms <- terms
   da <- if (!is.null(which.terms)) data.frame(x$boot[, which.terms, drop = FALSE])
-  else data.frame(x$boot)
+        else data.frame(x$boot)
   da0 <- if (!is.null(which.terms)) data.frame(t(x$orig.coef)[, which.terms, drop = FALSE])
   else data.frame(t(x$orig.coef))
   names <- names(da)
