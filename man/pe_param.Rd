@@ -4,12 +4,11 @@
 \alias{pe_2_param}
 \alias{pe_param_grid}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Partial Effect of a term on the parameters and predictors}
 \description{
 The function \code{pe_param()} is similar to the function \code{getPEF()} of the \pkg{gamlss} package. It plot the partial effect that a particular term has one of the parameters of the distribution or its predictor \code{eta}. 
-The function \code{pe2_param()} is build for partial effects for from two terms and it is suitable to display first order interactions.
+The function \code{pe2_param()} is build for partial effects from two terms and it is suitable to display first order interactions.
 }
 \usage{
 pe_param(obj = NULL, term = NULL, data = NULL, n.points = 100, 
@@ -48,7 +47,6 @@ pe_2_param(obj = NULL, terms = NULL, data = NULL, n.points = 100,
 
 pe_param_grid(model, terms, maxcol = 2, maxrow = 3, ylim=NULL, ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{obj}{a GAMLSS fitted object}
    \item{model}{a GAMLSS fitted model}
@@ -107,7 +105,9 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 \emph{Journal of Statistical Software}, Vol. \bold{23}, Issue 7, Dec 2007, \url{https://www.jstatsoft.org/v23/i07/}.
 
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
-\emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
+\emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC. 
+
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
 
 (see also \url{https://www.gamlss.com/}).
 }
@@ -115,31 +115,15 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 Mikis Stasinopulos, Rober Rigby and Fernanda de Bastiani 
 }
 
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
 \code{\link[gamlss]{getPEF}}
 }
 \examples{
 m1 <- gamlss(R~pb(Fl)+pb(A)+loc+H, data=rent, gamily=GA)
 pe_param(m1, "A")
-# equivalent to 
-# pe_1_param(m1, "A")
-
 pe_param(m1, c("Fl","A"), filled=TRUE)
-#equivalent to
-#pe_2_param(m1, c("Fl","A"), filled=TRUE)
-
 pe_param_grid(m1, list(c("Fl","A"), c("H","loc")), filled=TRUE)
 # the terms are additive no interaction
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
- \keyword{ regression }
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.
+
+\keyword{ regression }

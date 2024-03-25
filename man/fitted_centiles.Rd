@@ -3,7 +3,6 @@
 \alias{fitted_centiles_legend}
 \alias{model_centiles}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Plotting centile (growth) curves
 }
@@ -80,15 +79,16 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 \emph{Journal of Statistical Software}, Vol. \bold{23}, Issue 7, Dec 2007, \url{https://www.jstatsoft.org/v23/i07/}.
 
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
-\emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
+\emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC. 
+
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
 (see also \url{https://www.gamlss.com/}).
 }
 \author{
 Mikis Stasinopoulos, Bob Rigby and Fernanda de Bastiani
 }
 \section{Warning }{This function is appropriate only when one continuous explanatory variable is fitted in the model}  
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{   \code{\link[gamlss]{centiles}} }
 \examples{
@@ -101,12 +101,6 @@ fitted_centiles_legend(h)
 model_centiles(h, h1)
 }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
+
 \keyword{regression}
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
 \concept{growth curves}
-% \concept{ ~cpt2 }
-% Use only one concept per line.

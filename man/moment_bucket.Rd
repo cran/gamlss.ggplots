@@ -36,7 +36,6 @@ moment_bucket_wrap(x, ..., weights = NULL, xvar = NULL, n_inter = 4,
           col_JB_test = gray(.7), alpha_JB_test = .1)           
            
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{x should be a continuous vector of a GAMLSS fitted model. }
   \item{\dots}{this for more that one continuous vectors or fitted models}
@@ -78,6 +77,9 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 Stasinopoulos, M. D., Rigby, R. A., and De Bastiani F., (2018) GAMLSS: a distributional regression approach, \emph{Statistical Modelling}, Vol. \bold{18}, 
 pp, 248-273, SAGE Publications Sage India: New Delhi, India. 
 
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
+
 (see also  \url{https://www.gamlss.com/}).
 
 }
@@ -87,20 +89,12 @@ pp, 248-273, SAGE Publications Sage India: New Delhi, India.
 The  bucket plot provides an additional residual diagnostic tool that can be used for fitted model checking, alongside other diagnostic tools, for example   worm plots, and Q (and Z) statistics.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{\code{\link[gamlss]{wp}, \link[gamlss]{Q.stats}}}
 \examples{
 m1 <- gamlss(R~pb(Fl)+pb(A), data=rent, family=GA)
 moment_bucket(m1)
 moment_bucket_wrap(m1, xvar=rent$A)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
+
 \keyword{regression}
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
 \concept{diagnostics}
-% \concept{ ~cpt2 }
-% Use only one concept per line.

@@ -1,6 +1,6 @@
 \name{fit_PB}
 \alias{fit_PB}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
 P-spline smoother
 }
@@ -12,7 +12,6 @@ fit_PB(x, y, weights, data, xmin, xmax, nseg = 20,
       lambda = 10, order = 2, degree = 3, max.df = 20, 
       ylim, plot = TRUE, col.ribbon = "pink")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{the explanatory variable}
   \item{y}{the response}
@@ -46,6 +45,9 @@ Rigby, R. A., Stasinopoulos, D. M.,  Heller, G. Z.,  and De Bastiani, F. (2019)
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
 \emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC. \doi{10.1201/b21973}
 
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
+(see also  \url{https://www.gamlss.com/}).
 }
 \author{
 Mikis Stasinopoulos
@@ -61,12 +63,5 @@ used on its own as a smoother.
 data(abdom)
 m1 <- fit_PB(x,y, data=abdom)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
+
 \keyword{regression}
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.

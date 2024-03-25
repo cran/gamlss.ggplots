@@ -71,14 +71,8 @@ export( resid_index,
         quantile_gamlss, # should be called fitted_quantile() or get_quantile()
         fit_PB, # 
         ACE, 
-        mcor, 
-        data_cor,
-        data_dim, data_names, data_which_na, data_sorter_names,
-        data_str, y_distinct, data_distinct, 
-        data_cha2fac, data_few2fac, data_int2num,
-        data_xyplot, data_plot, data_bucket, data_zscores, y_zscores,
-        prof_term, data_outliers, y_outliers,
-        data_part, data_rm1val
+        mcor,
+        prof_term
 )        
 ################################################################################
 # ACE object
@@ -111,6 +105,7 @@ import(ggridges)
 import(ggplot2)
 ################################################################################
 importFrom("grid", "grid.layout", "grid.newpage", "pushViewport", "viewport")
+importFrom("stats", "model.matrix")
 ################################################################################
 importFrom("gamlss.inf", "gen.Zadj", "gen.Inf0to1")
 ################################################################################
@@ -137,3 +132,6 @@ importFrom("stats", "optimise")
 ################################################################################
 importFrom("foreach", "%dopar%", "foreach", "%do%")
 ################################################################################
+importFrom("graphics", "axis", "contour", "image", "rect")
+importFrom("stats", "cmdscale", "ecdf", "family", "lm.wfit")
+importFrom("yaImpute", "ann")  

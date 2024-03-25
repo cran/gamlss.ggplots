@@ -3,7 +3,6 @@
 \alias{centile_bucket_wrap}
 \alias{model_cent_bucket}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Centile bucket plot
 }
@@ -12,9 +11,11 @@ A bucket plot is a graphical way to check the skewness and kurtosis of a continu
 
 There are two function here:
 
-i) \code{cenlile_bucket()} for a single bucket plot. Note that  \code{model_cen_bucket()}  and \code{centile_bucket()} are synonymous.
+i) \code{cenlile_bucket()} for a single bucket plot. Note that  \code{model_cent_bucket()}  and \code{centile_bucket()} are synonymous.
 
 ii) \code{centile_bucket_wrap()} for multiple bucket plots cut according to  terms in the model. 
+
+
 
 }
 \usage{
@@ -42,7 +43,6 @@ centile_bucket_wrap(x, ..., type = c("tail", "central"), weights = NULL,
       col_sim_test = gray(0.7), alpha_sim_test = 0.1, seed_test = 1234)       
        
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
  \item{x}{x should be a continuous vector of a GAMLSS fitted model. }
  \item{\dots}{for more that one continuous vectors or fitted models}
@@ -87,8 +87,10 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
 \emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC. \doi{10.1201/b21973}
 
-Stasinopoulos, M. D., Rigby, R. A., and De Bastiani F., (2018) GAMLSS: a distributional regression approach, \emph{Statistical Modelling}, Vol. \bold{18}, 
-pp, 248-273, SAGE Publications Sage India: New Delhi, India.
+Stasinopoulos, M. D., Rigby, R. A., and De Bastiani F., (2018) GAMLSS: a distributional regression approach, \emph{Statistical Modelling}, Vol. \bold{18}, pp, 248-273, SAGE Publications Sage India: New Delhi, India.
+
+
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
 
 (see also  \url{https://www.gamlss.com/}).
 }
@@ -97,26 +99,14 @@ pp, 248-273, SAGE Publications Sage India: New Delhi, India.
 The  bucket plot provides an additional residual diagnostic tool that can be used for fitted model checking, alongside other diagnostic tools, for example   worm plots, and Q (and Z) statistics.
 }
 
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{\code{\link[gamlss]{wp}, \link[gamlss]{Q.stats}}}
 
 \examples{
 m1 <- gamlss(R~pb(Fl)+pb(A), data=rent, family=GA)
 centile_bucket(m1)
-\dontrun{
+\donttest{
 centile_bucket_wrap(m1, xvar=rent$A)
 }
-
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
 \keyword{regression}
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.

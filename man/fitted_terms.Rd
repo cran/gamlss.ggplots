@@ -6,7 +6,7 @@
 
 \description{
 The function \code{fitted_terms()} is doing what the function \code{term.plot()} is doing for GAMLSS models but it uses \code{ggplot2} package. 
-The function \code{pe_terms()} is synonymous to  \code{fitted_terms()}
+The function \code{pe_terms()} is synonymous to  \code{fitted_terms()} in the package \pkg{gamlss}.
 }
 \usage{
 fitted_terms(object, 
@@ -40,7 +40,6 @@ pe_terms(object,
           col.shaded = "gray", ...)          
           
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{a gamlss fitted model}
   \item{what}{which distribution parameters, i.e. "mu"}
@@ -72,9 +71,6 @@ pe_terms(object,
   \item{col.shaded}{he colour of the shaded area}
   \item{\dots}{for extra argument}
 }
-%\details{
-%%  ~~ If necessary, more details than the description above ~~
-%}
 \value{A multiple plot}
 \references{
 Rigby, R. A. and  Stasinopoulos D. M. (2005). Generalized additive models for location, scale and shape,(with discussion), 
@@ -87,17 +83,14 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 \emph{Journal of Statistical Software}, Vol. \bold{23}, Issue 7, Dec 2007, \url{https://www.jstatsoft.org/v23/i07/}.
 
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
-\emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
+\emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC. 
+
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
 
 (see also \url{https://www.gamlss.com/}).
 }
 
-\author{Mikis Stasinopoulos }
-%\note{
-%%  ~~further notes~~
-%}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\author{Mikis Stasinopoulos}
 
 \seealso{
 \code{\link[gamlss]{term.plot}}
@@ -105,8 +98,8 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 
 \examples{
 data(aids)
-a<-gamlss(y~pb(x)+qrt,data=aids,family=NBI)
-fitted_terms(a, pages=1)
-rm(a)
+a <- gamlss(y ~ pb(x) + qrt, data = aids, family = NBI)
+fitted_terms(a, pages = 1)
 }
+
 \keyword{regression}

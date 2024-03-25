@@ -7,7 +7,6 @@
 \alias{resid_xvar}
 \alias{resid_quantile}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{A residual plots}
 \description{
 
@@ -99,6 +98,9 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 Stasinopoulos, M. D., Rigby, R. A., and De Bastiani F., (2018) GAMLSS: a distributional regression approach, \emph{Statistical Modelling}, Vol. \bold{18}, 
 pp, 248-273, SAGE Publications Sage India: New Delhi, India. 
 
+
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
 (see also  \url{https://www.gamlss.com/}).
 }
 
@@ -121,12 +123,5 @@ resid_xvar(r1, A)
 resid_plots(r1)
 resid_index(r1, no.lines=TRUE)+facet_wrap(~ cut_number(rent$A, 6))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
- \keyword{regression}
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.
+
+\keyword{regression}

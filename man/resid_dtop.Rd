@@ -3,7 +3,6 @@
 \alias{resid_ecdf}
 \alias{y_ecdf}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Detrended Transformed Owen's Plot and ECDF for the residuals}
 \description{
 
@@ -26,9 +25,8 @@ resid_ecdf(obj, resid, type = c("Owen", "JW"), conf.level = c("95", "99"),
            
 y_ecdf(y, type = c("Owen", "JW"), conf.level = c("95", "99"), value = 2, 
            points.col = "steelblue4", check_overlap = TRUE, 
-           show.outliers = FALSE, title, ...)           
+           show.outliers = FALSE, from, to, title, ...)           
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{obj}{A GAMLSS fitted model}
   \item{resid}{if the object is not specified the residual vector can be given here}
@@ -41,6 +39,8 @@ y_ecdf(y, type = c("Owen", "JW"), conf.level = c("95", "99"), value = 2,
   \item{title}{required title}
    \item{show.outliers}{whether to shoe the number of an outlier obsrvation}
   \item{ylim}{if the y limit should be different from the default max(y)+.1}
+   \item{from}{where to start the ecdf}
+  \item{to}{where to finish the ecdf}
   \item{\dots}{ further arguments}
 }
 \value{A ggplot is generated}
@@ -60,11 +60,11 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
 \emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
 
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
 (see also \url{https://www.gamlss.com/}).
 }
 \author{Mikis Stasinopoulos, Bob Rigby and Fernanda de Bastiani}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{resid_wp}}}
 \examples{
@@ -78,5 +78,4 @@ y <- rGA(1000, mu=3, sigma=1)
 gp<- y_ecdf(y)
 gp + stat_function(fun = pGA, args=list(mu=3, sigma=1)) 
 }
-\keyword{regression}% 
-
+\keyword{regression}

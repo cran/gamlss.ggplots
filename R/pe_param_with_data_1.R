@@ -4,8 +4,8 @@
 ################################################################################
 # created on the 08-06-2021
 # TO DO
-# i) what is data set incules character vectors no declared as factors
-# ii) not going aoud the whole dat but only the ones in formulae
+# i) what is data set includes character vectors no declared as factors
+# ii) not going holding the whole data but only the ones in formulae
 ################################################################################
 ################################################################################
 ################################################################################

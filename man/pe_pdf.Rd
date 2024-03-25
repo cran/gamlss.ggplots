@@ -17,7 +17,6 @@ pe_pdf(obj = NULL, term = NULL,  from = NULL, to = NULL,
       
 pe_pdf_grid(model, terms, maxcol = 2, maxrow = 3, ...)      
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{obj, model}{A GAMLSS object}
   \item{term}{The model term}
@@ -58,12 +57,13 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
 \emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
 
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
 (see also \url{https://www.gamlss.com/}).
 }
 \author{
 Mikis Stasinopulos, Rober Rigby and Fernanda de Bastiani 
 }
-
 
 
 \seealso{
@@ -76,12 +76,5 @@ pe_pdf(m1, "A")
 pe_pdf(m1, "A", horizontal=FALSE)
 pe_pdf_grid(m1, c("Fl", "A", "H", "loc"))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS"))
+
 \keyword{"regression"}
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.

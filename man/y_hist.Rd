@@ -29,7 +29,6 @@ y_dots(y, data, value=3, point.size = 2, point.col = "gray",
           x.axis.line.type = "solid", seed = 123, from, to, title)
 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{y,x}{a continuous variable}
   \item{data}{where to find argument y}
@@ -68,16 +67,11 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
 \emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
 
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
 (see also \url{https://www.gamlss.com/}).
-
-van Buuren and Fredriks M. (2001) Worm plot: simple diagnostic device for modelling growth reference curves. 
-            \emph{Statistics in Medicine}, \bold{20}, 1259--1277
-
 }
 \author{Mikis Stasinopoulos, Bob Rigby and Fernanda De Bastiani}
-
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{plot.ecdf}}}
 \examples{
@@ -93,6 +87,5 @@ gg + stat_function(fun = dBCT, args=list(mu=3, sigma=.1,  nu=-1, tau=5),
 y_acf(diff(EuStockMarkets[,1]))    
 
 y_dots(rent$R)
-
 }
 \keyword{regression}

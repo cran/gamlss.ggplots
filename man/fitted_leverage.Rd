@@ -13,7 +13,6 @@ fitted_leverage(obj, plot = TRUE, title, quan.val = 0.99,
           annotate = TRUE, line.col = "steelblue4", 
           point.col = "steelblue4", annot.col = "darkred")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{obj}{A GAMLSS fitted model}
   \item{plot}{whether to plot ot not}
@@ -41,13 +40,12 @@ Stasinopoulos D. M. Rigby R.A. (2007) Generalized additive models for location s
 Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2017)
 \emph{Flexible Regression and Smoothing: Using GAMLSS in R},  Chapman and Hall/CRC.  
 
+Stasinopoulos, M.D., Kneib, T., Klein, N., Mayr, A. and Heller, G.Z., (2024). \emph{Generalized Additive Models for Location, Scale and Shape: A Distributional Regression Approach, with Applications} (Vol. \bold{56}). Cambridge University Press.
+
 (see also \url{https://www.gamlss.com/}).
 
 }
 \author{Mikis Stasinopoulos, Bob Rigby and Fernanda De Bastiani}
-
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{ \code{\link[gamlss]{gamlss}} }
 
@@ -55,12 +53,5 @@ Stasinopoulos D. M., Rigby R.A., Heller G., Voudouris V., and De Bastiani F., (2
 m1 <- gamlss(R~pb(Fl)+pb(A)+loc+H, data=rent, family=GA)
 fitted_leverage(m1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
- \keyword{regression}
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.
+
+\keyword{regression}
